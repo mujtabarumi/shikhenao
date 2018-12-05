@@ -82,3 +82,5 @@
 <script src="{{url('public/assets/js/slicks-2.js')}}"></script>
 <script src="{{url('public/assets/js/script.js')}}"></script>
 {{--<script src="{{url('public/assets/js/home-2.js')}}"></script>--}}
+
+

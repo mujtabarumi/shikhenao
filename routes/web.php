@@ -22,3 +22,7 @@ Route::view('Course-Teacher-Details', 'teacherDetails')->name('course.teacherDet
 
 Route::view('/Admin', 'Admin.dashboard')->name('admin.dashboard');
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

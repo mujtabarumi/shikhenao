@@ -13,7 +13,8 @@
     <link rel="stylesheet" type="text/css" href="{{url('public/assets/css/animate.css')}}">
     <link rel="stylesheet" type="text/css" href="{{url('public/assets/css/style.css')}}">
 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="{{url('public/assets/lib/js/jquery-3.3.1.min.js')}}"></script>
 
     @yield('header')
 

@@ -1,4 +1,32 @@
 
+<style>
+    input[type='password'] {
+        width: 100%;
+        box-sizing: border-box;
+        height: 55px;
+        display: inline-block;
+        /*border: 3px solid #2F96EF;*/
+        border-radius: 5px;
+        padding: 0 15px;
+        margin: 10px 0;
+        transition: .2s;
+    }
+
+    input[type='password']:focus {
+        outline: none;
+        -moz-outline: none;
+        -webkit-outline: none;
+    }
+    .progress-bar_text {
+        display: inline-block;
+        color: #aaa;
+        margin-left: 5px;
+        transition: .2s;
+    }
+
+
+</style>
+
 <header class="header-content">
     <div class="header-top hidden-sm hidden-xs" id="header-top">
         <div class="container">
@@ -235,45 +263,56 @@
             </div>
             <div class="modal-content signin-form__content">
                 <div class="modal-body signin-form__body">
-                    <ul class="signin-form__tabs">
-                        <li class="active signin-form__tabs__items"><a class="signin-form__tabs__link" data-toggle="tab" href="#sign-in">Sign In</a></li>
-                        <li class="signin-form__tabs__items"><a class="signin-form__tabs__link" data-toggle="tab" href="#sign-up">Sign Up</a></li>
-                    </ul>
+
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="sign-in">
                             <h3 class="signin-form__body__title">Log Into Your Account</h3>
                             <p class="signin-form__body__sub">Your student account is your portal to all things Shikhenao: your classroom, projects, forums, career resources, and more!</p>
-                            <form class="signin-form__form">
-                                <div class="signin-form__form__inputs">
-                                    <input class="input-item" type="text" placeholder="Email">
-                                    <input class="input-item" type="password" placeholder="Password">
+
+                            <form class="signin-form__form" method="POST" action="{{ route('login') }}">
+                                    {{ csrf_field() }}
+
+
+
+
+
+                                        <input id="email" type="email" class="form-control input-item" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus>
+
+                                        @if ($errors->has('email'))
+                                            <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                        @endif
+
+
+
+
+                                        <input id="password" type="password" placeholder="Password" class="form-control input-item" name="password" required>
+
+                                        @if ($errors->has('password'))
+                                            <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                        @endif
+
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button class="btn-green list-link__btn">Sign In</button><a class="signin-form__link" href="#">Forgot your password?</a>
+
+
+                                <button class="btn-green list-link__btn">Sign In</button>
+                                <a class="signin-form__link" href="{{ route('password.request') }}">Forgot your password?</a>
                             </form>
-                            <div class="group-btn-socials">
-                                <p class="group-btn-socials__sub">or sign in with one of these services</p>
-                                <div class="btn-social btn-social--facebook"><i class="glyph-icon flaticon-social-1"></i><i>facebook</i></div>
-                                <div class="btn-social btn-social--twitter"><i class="glyph-icon flaticon-twitter-logo-silhouette"></i><i>twitter</i></div>
-                            </div>
+
                         </div>
-                        <div class="tab-pane fade" id="sign-up">
-                            <h3 class="signin-form__body__title">Log Into Your Account</h3>
-                            <p class="signin-form__body__sub">Your student account is your portal to all things Educef: your classroom, projects, forums, career resources, and more!</p>
-                            <form class="signin-form__form">
-                                <div class="signin-form__form__inputs">
-                                    <input class="input-item" type="text" placeholder="User name">
-                                    <input class="input-item" type="email" placeholder="Email">
-                                    <input class="input-item" type="password" placeholder="Password">
-                                    <input class="input-item" type="password" placeholder="Confirm Password">
-                                </div>
-                                <button class="btn-green list-link__btn">Sign Up</button>
-                            </form>
-                            <div class="group-btn-socials">
-                                <p class="group-btn-socials__sub">or sign up with one of these services</p>
-                                <div class="btn-social btn-social--facebook"><i class="glyph-icon flaticon-social-1"></i><i>facebook</i></div>
-                                <div class="btn-social btn-social--twitter"><i class="glyph-icon flaticon-twitter-logo-silhouette"></i><i>twitter</i></div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -291,44 +330,84 @@
             </div>
             <div class="modal-content signin-form__content">
                 <div class="modal-body signin-form__body">
-                    <ul class="signin-form__tabs">
-                        <li class="signin-form__tabs__items"><a class="signin-form__tabs__link" data-toggle="tab" href="#sign-in1">Sign In</a></li>
-                        <li class="signin-form__tabs__items active"><a class="signin-form__tabs__link" data-toggle="tab" href="#sign-up1">Sign Up</a></li>
-                    </ul>
+
                     <div class="tab-content">
-                        <div class="tab-pane fade in" id="sign-in1">
-                            <h3 class="signin-form__body__title">Log Into Your Account</h3>
-                            <p class="signin-form__body__sub">Your student account is your portal to all things Shikhenao: your classroom, projects, forums, career resources, and more!</p>
-                            <form class="signin-form__form">
-                                <div class="signin-form__form__inputs">
-                                    <input class="input-item" type="text" placeholder="Email">
-                                    <input class="input-item" type="password" placeholder="Password">
-                                </div>
-                                <button class="btn-green list-link__btn">Sign In</button><a class="signin-form__link" href="#">Forgot your password?</a>
-                            </form>
-                            <div class="group-btn-socials">
-                                <p class="group-btn-socials__sub">or sign in with one of these services</p>
-                                <div class="btn-social btn-social--facebook"><i class="glyph-icon flaticon-social-1"></i><i>facebook</i></div>
-                                <div class="btn-social btn-social--twitter"><i class="glyph-icon flaticon-twitter-logo-silhouette"></i><i>twitter</i></div>
-                            </div>
-                        </div>
+
+
                         <div class="tab-pane fade in active" id="sign-up1">
                             <h3 class="signin-form__body__title">Log Into Your Account</h3>
                             <p class="signin-form__body__sub">Your student account is your portal to all things Educef: your classroom, projects, forums, career resources, and more!</p>
-                            <form class="signin-form__form">
+
+                            <form class="signin-form__form" method="POST" action="{{ route('register') }}">
+
                                 <div class="signin-form__form__inputs">
-                                    <input class="input-item" type="text" placeholder="User name">
-                                    <input class="input-item" type="email" placeholder="Email">
-                                    <input class="input-item" type="password" placeholder="Password">
-                                    <input class="input-item" type="password" placeholder="Confirm Password">
+                                {{ csrf_field() }}
+
+
+
+                                    <label for="userType" class="control-label col-md-4">Register As</label>
+                                    <div class="col-md-8">
+                                    <select id="userType" name="userType" required class="form-control input-item">
+                                        <option value="">Select</option>
+                                        @foreach(USER_TYPE as $type)
+                                            @if($type['code'] != 'admin')
+                                            <option value="{{$type['code']}}">{{$type['name']}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('userType'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('userType') }}</strong>
+                                    </span>
+                                    @endif
+                                    </div>
+
+
+
+                                    <input id="regEmail" type="email" class="form-control input-item" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
+
+                                    @if ($errors->has('email'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                    @endif
+
+
+                                        <input id="regPassword" type="password" class="form-control password input-item" placeholder="Password" name="password" required>
+                                        <span id="progress-bar_text1" class="progress-bar_text">Password is blank</span>
+
+                                        @if ($errors->has('password'))
+                                            <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                        @endif
+
+                                        <input id="password-confirm" type="password" class="form-control confirmPassword input-item" placeholder="Confirm Password" name="password_confirmation" required>
+
+                                        <span id="progress-bar_text2" class="progress-bar_text">Confirm Password is blank</span>
+                                        @if ($errors->has('conPassword'))
+                                            <span class="help-block">
+                                        <strong>{{ $errors->first('conPassword') }}</strong>
+                                    </span>
+                                        @endif
+
+
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-4">
+
+                                        <label>
+                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                        </label>
+
+                                    </div>
                                 </div>
+
+
                                 <button class="btn-green list-link__btn">Sign Up</button>
+                                </div>
                             </form>
-                            <div class="group-btn-socials">
-                                <p class="group-btn-socials__sub">or sign up with one of these services</p>
-                                <div class="btn-social btn-social--facebook"><i class="glyph-icon flaticon-social-1"></i><i>facebook</i></div>
-                                <div class="btn-social btn-social--twitter"><i class="glyph-icon flaticon-twitter-logo-silhouette"></i><i>twitter</i></div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -337,3 +416,52 @@
         </div>
     </div>
 </header>
+
+
+<script>
+    $( document ).ready(function() {
+
+        const changeText = function (el, text, color) {
+            el.text(text).css('color', color);
+        };
+
+        $('.password').keyup(function(){
+            len = this.value.length;
+            const pbText = $('#progress-bar_text1');
+
+            if (len === 0) {
+                $(this).css('border-color', '#2F96EF');
+                changeText(pbText, 'Password is blank', '#aaa');
+            } else if (len > 0 && len <= 4) {
+                $(this).css('border-color', '#FF4B47');
+                changeText(pbText, 'Too weak', '#FF4B47');
+            } else if (len > 4 && len <= 8) {
+                $(this).css('border-color', '#F9AE35');
+                changeText(pbText, 'Could be stronger', '#F9AE35');
+            } else {
+                $(this).css('border-color', '#2DAF7D');
+                changeText(pbText, 'Strong password', '#2DAF7D');
+            }
+        });
+        $('.confirmPassword').keyup(function(){
+            len = this.value.length;
+            var pass = $('#regPassword').val();
+
+            const pbText = $('#progress-bar_text2');
+
+            if (len === 0) {
+                $(this).css('border-color', '#2F96EF');
+                changeText(pbText, 'Confirm Password is blank', '#aaa');
+            } else if (len > 0 && this.value != pass) {
+                $(this).css('border-color', '#FF4B47');
+                changeText(pbText, 'Not Matched!!', '#FF4B47');
+            } else if (len > 0 && this.value == pass){
+                $(this).css('border-color', '#2DAF7D');
+                changeText(pbText, 'Matched', '#2DAF7D');
+            }
+        });
+
+    });
+
+</script>
+

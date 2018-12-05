@@ -9,6 +9,7 @@
 @yield('content')
 
 @include('layouts/footer')
+@yield('foot-js')
 <div class="positionfixed"></div>
 </body>
 
