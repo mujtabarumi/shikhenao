@@ -5,9 +5,19 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
+//use Illuminate\Support\Facades\Request;
+
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+
+use Illuminate\Support\Facades\Mail;
+
+use Session;
+
+use Auth;
+use Illuminate\Http\Request;
+use Response;
 
 class RegisterController extends Controller
 {
@@ -57,7 +67,56 @@ class RegisterController extends Controller
     }
     protected function sendNewUserRegisterMail(Request $r)
     {
-        return 1;
+
+        //return $r;
+        $validator = Validator::make($r->all(), [
+            'regEmail' => 'required|email|max:255|unique:user,email',
+            'regPassword' => 'required|string|min:6',
+            'password_confirmation' => 'required|string|min:6|same:regPassword',
+        ]);
+
+        if ($validator->passes()) {
+
+            // Store your user in database
+
+            $userToken=str_random(64);
+
+            User::create([
+
+                'email' => $r->regEmail,
+                'password' => Hash::make($r->regPassword),
+                'token'=>$userToken,
+                'fkuserTypeId'=>$r->userType,
+                'register'=>'N',
+            ]);
+
+            $data = array('email'=>$r->email,'pass'=>$r->password,'userToken'=>$userToken);
+
+//            try {
+//
+//                Mail::send('mail.AccountCreate', $data, function ($message) use ($data) {
+//                    $message->to($data['email'], 'Caritas BD')->subject('New - Account');
+//
+//                });
+//
+//                Session::flash('notActive', 'Account Activation Mail is sent to your mail');
+//
+//            }catch (\Exception $ex) {
+//
+//                Session::flash('notActive', 'Account Activation Email Does not Sent.Please contact us');
+//
+//            }
+
+
+            return Response::json(['success' => '1']);
+
+        }else{
+
+
+            return Response::json(['errors' => $validator->errors()]);
+        }
+
+
     }
 
     /**
@@ -69,6 +128,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return 1;
+
 //        $userToken=str_random(64);
 //
 //         User::create([

@@ -83,4 +83,8 @@
 <script src="{{url('public/assets/js/script.js')}}"></script>
 {{--<script src="{{url('public/assets/js/home-2.js')}}"></script>--}}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+@yield('foot-js')
+
 

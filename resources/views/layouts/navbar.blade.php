@@ -328,6 +328,9 @@
             <div class="signin-form__header"><a class="signin-form__header__logo" href="#"><img src="{{url('public/assets/img/logo/Logo-form.png')}}" alt=""></a>
                 <p class="signin-form__sub">Universal access to the world’s best education.</p>
             </div>
+
+
+
             <div class="modal-content signin-form__content">
                 <div class="modal-body signin-form__body">
 
@@ -338,7 +341,16 @@
                             <h3 class="signin-form__body__title">Log Into Your Account</h3>
                             <p class="signin-form__body__sub">Your student account is your portal to all things Educef: your classroom, projects, forums, career resources, and more!</p>
 
-                            <form id="signin-form__form" class="signin-form__form" method="GET" action="{{ route('registration') }}">
+                            <div id="success-msg" class="hide">
+                                <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <strong>Success!</strong> Check your mail for login confirmation!!
+                                </div>
+                            </div>
+
+                            <form id="signin-form__form" class="signin-form__form" method="POST">
 
                                 <div class="signin-form__form__inputs">
                                 {{ csrf_field() }}
@@ -355,41 +367,40 @@
                                             @endif
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('userType'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('userType') }}</strong>
-                                    </span>
-                                    @endif
+                                        <span class="text-danger">
+                                            <strong id="userType-error"></strong>
+                                        </span>
+
                                     </div>
 
 
 
                                     <input id="regEmail" type="email" class="form-control input-item" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
 
-                                    @if ($errors->has('email'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                    @endif
+
+
+                                        <span class="text-danger">
+                                            <strong id="email-error"></strong>
+                                        </span>
 
 
                                         <input id="regPassword" type="password" class="form-control password input-item" placeholder="Password" name="password" required>
                                         <span id="progress-bar_text1" class="progress-bar_text">Password is blank</span>
 
-                                        @if ($errors->has('password'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                        @endif
+
+
+                                    <span class="text-danger">
+                                            <strong id="password-error"></strong>
+                                        </span>
 
                                         <input id="password-confirm" type="password" class="form-control confirmPassword input-item" placeholder="Confirm Password" name="password_confirmation" required>
 
                                         <span id="progress-bar_text2" class="progress-bar_text">Confirm Password is blank</span>
-                                        @if ($errors->has('conPassword'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('conPassword') }}</strong>
-                                    </span>
-                                        @endif
+
+
+                                    <span class="text-danger">
+                                            <strong id="conPassword-error"></strong>
+                                        </span>
 
 
 
@@ -419,7 +430,7 @@
     </div>
 </header>
 
-
+{{--@section('foot-js')--}}
 <script>
     $( document ).ready(function() {
 
@@ -466,40 +477,74 @@
 
 
     });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
     $( "#SIGNUP" ).click(function(e) {
 
 
+            var registerForm = $("#signin-form__form");
 
-        $('#signin-form__form').submit(e)
-        {
-            var $form = $(this);
-            e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
-            var url = $form.attr('action');
-            var formData = {};
+            $( '#userType-error' ).html( "" );
+            $( '#email-error' ).html( "" );
+            $( '#password-error' ).html( "" );
+            $( '#conPassword-error' ).html( "" );
 
-            //submit a POST request with the form data
-            $form.find('input','select').each(function()
-            {
-                formData[ $(this).attr('name') ] = $(this).val();
+            $.ajax({
+                url:'{{ route('registration') }}',
+                type:'POST',
+                data:{userType:$('#userType').val(),regEmail:$('#regEmail').val(),regPassword:$('#regPassword').val(),password_confirmation:$('#password-confirm').val(),_token:"{{csrf_token()}}"},
+                success:function(data) {
+                    console.log(data.errors);
+                    if(data.errors) {
+                        if(data.errors.userType){
+                            $( '#userType-error' ).html( data.errors.userType[0] );
+                        }
+                        if(data.errors.regEmail){
+                            $( '#email-error' ).html( data.errors.regEmail[0] );
+                        }
+                        if(data.errors.regPassword){
+                            $( '#password-error' ).html( data.errors.regPassword[0] );
+                        }
+                        if(data.errors.password_confirmation){
+                            $( '#conPassword-error' ).html( data.errors.password_confirmation[0] );
+                        }
 
+                    }
+                    if(data.success) {
+//                        $('#success-msg').removeClass('hide');
+//                        setInterval(function(){
+//                            $('#modal-signUp').modal('hide');
+//                            $('#success-msg').addClass('hide');
+//                        }, 3000);
+
+                        $.alert({
+                            title: 'Success!',
+                            type: 'green',
+                            content: 'Check your mail for login confirmation!!',
+                            buttons: {
+                                tryAgain: {
+                                    text: 'Ok',
+                                    btnClass: 'btn-blue',
+                                    action: function () {
+
+                                        $('#modal-signUp').modal('hide');
+
+
+                                    }
+                                }
+
+                            }
+                        });
+
+
+                    }
+                },
             });
 
-
-            //submits an array of key-value pairs to the form's action URL
-            $.post(url, formData, function(response)
-            {
-                //handle successful validation
-
-                console.log(response);
-                alert('1');
-            }).fail(function(response)
-            {
-                //handle failed validation
-                associate_errors(response['errors'], $form);
-            });
-
-    }
 
     });
 
@@ -507,4 +552,5 @@
 
 
 </script>
+{{--@endsection--}}
 
