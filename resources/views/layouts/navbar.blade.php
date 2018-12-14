@@ -338,7 +338,7 @@
                             <h3 class="signin-form__body__title">Log Into Your Account</h3>
                             <p class="signin-form__body__sub">Your student account is your portal to all things Educef: your classroom, projects, forums, career resources, and more!</p>
 
-                            <form class="signin-form__form" method="POST" action="{{ route('register') }}">
+                            <form id="signin-form__form" class="signin-form__form" method="GET" action="{{ route('registration') }}">
 
                                 <div class="signin-form__form__inputs">
                                 {{ csrf_field() }}
@@ -403,8 +403,10 @@
                                     </div>
                                 </div>
 
+                                    <input  id="SIGNUP" value="Sign Up" class="btn btn-green list-link__btn" type="button">
 
-                                <button class="btn-green list-link__btn">Sign Up</button>
+
+                                {{--<button  class="btn-green list-link__btn">Sign Up</button>--}}
                                 </div>
                             </form>
 
@@ -461,7 +463,48 @@
             }
         });
 
+
+
     });
+
+    $( "#SIGNUP" ).click(function(e) {
+
+
+
+        $('#signin-form__form').submit(e)
+        {
+            var $form = $(this);
+            e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
+            var url = $form.attr('action');
+            var formData = {};
+
+            //submit a POST request with the form data
+            $form.find('input','select').each(function()
+            {
+                formData[ $(this).attr('name') ] = $(this).val();
+
+            });
+
+
+            //submits an array of key-value pairs to the form's action URL
+            $.post(url, formData, function(response)
+            {
+                //handle successful validation
+
+                console.log(response);
+                alert('1');
+            }).fail(function(response)
+            {
+                //handle failed validation
+                associate_errors(response['errors'], $form);
+            });
+
+    }
+
+    });
+
+
+
 
 </script>
 

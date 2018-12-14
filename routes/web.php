@@ -21,6 +21,7 @@ Route::view('Course-Teacher-Details', 'teacherDetails')->name('course.teacherDet
 
 
 Route::view('/Admin', 'Admin.dashboard')->name('admin.dashboard');
+Route::get('/Registration', 'Auth\RegisterController@sendNewUserRegisterMail')->name('registration');
 
 
 Auth::routes();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -49,10 +50,14 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:user'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
+    }
+    protected function sendNewUserRegisterMail(Request $r)
+    {
+        return 1;
     }
 
     /**
@@ -63,10 +68,36 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        return 1;
+//        $userToken=str_random(64);
+//
+//         User::create([
+//            'name' => $data['name'],
+//            'email' => $data['email'],
+//            'password' => Hash::make($data['password']),
+//            'token'=>$userToken,
+//            'fkuserTypeId'=>$data['userType'],
+//            'register'=>'N',
+//        ]);
+//
+//        $data = array('email'=>$data['email'],'pass'=>$data['password'],'userToken'=>$userToken);
+//
+//        try {
+//
+//            Mail::send('mail.AccountCreate', $data, function ($message) use ($data) {
+//                $message->to($data['email'], 'Caritas BD')->subject('New - Account');
+//
+//            });
+//
+//            Session::flash('notActive', 'Account Activation Mail is sent to your mail');
+//
+//        }catch (\Exception $ex) {
+//
+//            Session::flash('notActive', 'Account Activation Email Does not Sent.Please contact us');
+//
+//        }
+
+
+
     }
 }
