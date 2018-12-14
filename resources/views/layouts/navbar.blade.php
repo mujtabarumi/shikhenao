@@ -498,7 +498,7 @@
                 type:'POST',
                 data:{userType:$('#userType').val(),regEmail:$('#regEmail').val(),regPassword:$('#regPassword').val(),password_confirmation:$('#password-confirm').val(),_token:"{{csrf_token()}}"},
                 success:function(data) {
-                    console.log(data.errors);
+                    console.log(data);
                     if(data.errors) {
                         if(data.errors.userType){
                             $( '#userType-error' ).html( data.errors.userType[0] );
@@ -521,24 +521,53 @@
 //                            $('#success-msg').addClass('hide');
 //                        }, 3000);
 
-                        $.alert({
-                            title: 'Success!',
-                            type: 'green',
-                            content: 'Check your mail for login confirmation!!',
-                            buttons: {
-                                tryAgain: {
-                                    text: 'Ok',
-                                    btnClass: 'btn-blue',
-                                    action: function () {
-
-                                        $('#modal-signUp').modal('hide');
 
 
+                        if (data.mailSuccess){
+
+                            $.alert({
+                                title: 'Success!',
+                                type: 'green',
+                                content: data.mailSuccess,
+                                buttons: {
+                                    tryAgain: {
+                                        text: 'Ok',
+                                        btnClass: 'btn-blue',
+                                        action: function () {
+
+                                            $('#modal-signUp').modal('hide');
+
+
+                                        }
                                     }
-                                }
 
-                            }
-                        });
+                                }
+                            });
+
+                        }else if (data.mailError){
+
+                            $.alert({
+                                title: 'Error!',
+                                type: 'red',
+                                content: data.mailError,
+                                buttons: {
+                                    tryAgain: {
+                                        text: 'Ok',
+                                        btnClass: 'btn-blue',
+                                        action: function () {
+
+                                            $('#modal-signUp').modal('hide');
+
+
+                                        }
+                                    }
+
+                                }
+                            });
+
+                        }
+
+
 
 
                     }

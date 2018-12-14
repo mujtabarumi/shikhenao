@@ -19,6 +19,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Response;
 
+
 class RegisterController extends Controller
 {
     /*
@@ -92,23 +93,28 @@ class RegisterController extends Controller
 
             $data = array('email'=>$r->email,'pass'=>$r->password,'userToken'=>$userToken);
 
-//            try {
-//
-//                Mail::send('mail.AccountCreate', $data, function ($message) use ($data) {
-//                    $message->to($data['email'], 'Caritas BD')->subject('New - Account');
-//
-//                });
-//
-//                Session::flash('notActive', 'Account Activation Mail is sent to your mail');
-//
-//            }catch (\Exception $ex) {
-//
-//                Session::flash('notActive', 'Account Activation Email Does not Sent.Please contact us');
-//
-//            }
+            try {
+
+                Mail::send('Admin.mail.AccountCreate', $data, function ($message) use ($data) {
+                    $message->to($data['email'], 'Caritas BD')->subject('New - Account');
+
+                });
+                return Response::json(['success' => '1','mailSuccess' => 'Account Activation Mail is sent to your mail']);
 
 
-            return Response::json(['success' => '1']);
+
+            }catch (\Exception $ex) {
+
+                return $ex;
+
+                return Response::json(['success' => '1','mailError' => $ex]);
+
+
+
+            }
+
+
+            //return Response::json(['success' => '1']);
 
         }else{
 
