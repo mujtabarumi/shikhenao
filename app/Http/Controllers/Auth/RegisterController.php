@@ -91,30 +91,31 @@ class RegisterController extends Controller
                 'register'=>'N',
             ]);
 
-            $data = array('email'=>$r->email,'pass'=>$r->password,'userToken'=>$userToken);
+            $data = array('email'=>$r->regEmail,'pass'=>$r->regPassword,'userToken'=>$userToken);
 
             try {
 
                 Mail::send('Admin.mail.AccountCreate', $data, function ($message) use ($data) {
-                    $message->to($data['email'], 'Caritas BD')->subject('New - Account');
+
+                    $message->from('noreply@shikhenao.com', 'SHIKHE-NAO');
+
+                    $message->to($data['email'], 'SHIKHE-NAO')->subject('New - Account');
 
                 });
+
                 return Response::json(['success' => '1','mailSuccess' => 'Account Activation Mail is sent to your mail']);
 
 
 
             }catch (\Exception $ex) {
 
-                return $ex;
+               // return $ex;
 
-                return Response::json(['success' => '1','mailError' => $ex]);
-
+                return Response::json(['success' => '1','mailError' => 'Account Activation Mail can not sent,please contact with support']);
 
 
             }
 
-
-            //return Response::json(['success' => '1']);
 
         }else{
 

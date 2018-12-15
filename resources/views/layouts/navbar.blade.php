@@ -276,24 +276,20 @@
 
 
 
-                                        <input id="email" type="email" class="form-control input-item" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus>
+                                        <input id="logEmail" type="email" class="form-control input-item" placeholder="Email" name="logEmail" value="{{ old('email') }}" required autofocus>
 
-                                        @if ($errors->has('email'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <span class="text-danger">
+                                            <strong id="logEmail-error"></strong>
                                         </span>
-                                        @endif
 
 
 
 
-                                        <input id="password" type="password" placeholder="Password" class="form-control input-item" name="password" required>
+                                        <input id="logPassword" type="password" placeholder="Password" class="form-control input-item" name="logPassword" required>
 
-                                        @if ($errors->has('password'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                        @endif
+                                        <span class="text-danger">
+                                            <strong id="logPassword-error"></strong>
+                                        </span>
 
 
                                 <div class="form-group">
@@ -307,7 +303,7 @@
                                 </div>
 
 
-                                <button class="btn-green list-link__btn">Sign In</button>
+                                <button id="SIGNIN" class="btn-green list-link__btn">Sign In</button>
                                 <a class="signin-form__link" href="{{ route('password.request') }}">Forgot your password?</a>
                             </form>
 
@@ -512,6 +508,93 @@
                         if(data.errors.password_confirmation){
                             $( '#conPassword-error' ).html( data.errors.password_confirmation[0] );
                         }
+
+                    }
+                    if(data.success) {
+//                        $('#success-msg').removeClass('hide');
+//                        setInterval(function(){
+//                            $('#modal-signUp').modal('hide');
+//                            $('#success-msg').addClass('hide');
+//                        }, 3000);
+
+
+
+                        if (data.mailSuccess){
+
+                            $.alert({
+                                title: 'Success!',
+                                type: 'green',
+                                content: data.mailSuccess,
+                                buttons: {
+                                    tryAgain: {
+                                        text: 'Ok',
+                                        btnClass: 'btn-blue',
+                                        action: function () {
+
+                                            $('#modal-signUp').modal('hide');
+
+
+                                        }
+                                    }
+
+                                }
+                            });
+
+                        }else if (data.mailError){
+
+                            $.alert({
+                                title: 'Error!',
+                                type: 'red',
+                                content: data.mailError,
+                                buttons: {
+                                    tryAgain: {
+                                        text: 'Ok',
+                                        btnClass: 'btn-blue',
+                                        action: function () {
+
+                                            $('#modal-signUp').modal('hide');
+
+
+                                        }
+                                    }
+
+                                }
+                            });
+
+                        }
+
+
+
+
+                    }
+                },
+            });
+
+
+    });
+    $( "#SIGNIN" ).click(function(e) {
+
+
+            var loginForm = $("#signin-form__form");
+
+            $( '#logEmail-error' ).html( "" );
+            $( '#logPassword-error' ).html( "" );
+
+
+            $.ajax({
+                url:'{{ route('LOGIN') }}',
+                type:'POST',
+                data:{email:$('#logEmail').val(),password:$('#logPassword').val(),_token:"{{csrf_token()}}"},
+                success:function(data) {
+                    console.log(data);
+                    if(data.errors) {
+                        if(data.errors.logEmail){
+                            $( '#logEmail-error' ).html( data.errors.logEmail[0] );
+                        }
+                        if(data.errors.logPassword){
+                            $( '#logPassword-error' ).html( data.errors.logPassword[0] );
+                        }
+
 
                     }
                     if(data.success) {
