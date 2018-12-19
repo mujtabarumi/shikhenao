@@ -269,7 +269,7 @@
                             <h3 class="signin-form__body__title">Log Into Your Account</h3>
                             <p class="signin-form__body__sub">Your student account is your portal to all things Shikhenao: your classroom, projects, forums, career resources, and more!</p>
 
-                            <form class="signin-form__form" method="POST" action="{{ route('login') }}">
+                            <form class="signin-form__form">
                                     {{ csrf_field() }}
 
 
@@ -303,7 +303,8 @@
                                 </div>
 
 
-                                <button id="SIGNIN" class="btn-green list-link__btn">Sign In</button>
+                                {{--<button id="SIGNIN" class="btn-green list-link__btn">Sign In</button>--}}
+                                <input  id="SIGNIN" value="Sign In" class="btn btn-green list-link__btn" type="button">
                                 <a class="signin-form__link" href="{{ route('password.request') }}">Forgot your password?</a>
                             </form>
 
@@ -586,60 +587,27 @@
                 type:'POST',
                 data:{email:$('#logEmail').val(),password:$('#logPassword').val(),_token:"{{csrf_token()}}"},
                 success:function(data) {
-                    console.log(data);
+                    console.log(data.errors);
                     if(data.errors) {
-                        if(data.errors.logEmail){
-                            $( '#logEmail-error' ).html( data.errors.logEmail[0] );
+                        if(data.errors.email){
+                            $( '#logEmail-error' ).html( data.errors.email[0] );
                         }
-                        if(data.errors.logPassword){
-                            $( '#logPassword-error' ).html( data.errors.logPassword[0] );
+                        if(data.errors.password){
+                            $( '#logPassword-error' ).html( data.errors.password[0] );
                         }
-
-
-                    }
-                    if(data.success) {
-//                        $('#success-msg').removeClass('hide');
-//                        setInterval(function(){
-//                            $('#modal-signUp').modal('hide');
-//                            $('#success-msg').addClass('hide');
-//                        }, 3000);
-
-
-
-                        if (data.mailSuccess){
-
-                            $.alert({
-                                title: 'Success!',
-                                type: 'green',
-                                content: data.mailSuccess,
-                                buttons: {
-                                    tryAgain: {
-                                        text: 'Ok',
-                                        btnClass: 'btn-blue',
-                                        action: function () {
-
-                                            $('#modal-signUp').modal('hide');
-
-
-                                        }
-                                    }
-
-                                }
-                            });
-
-                        }else if (data.mailError){
+                        if(data.errors.CredentialsError){
 
                             $.alert({
                                 title: 'Error!',
                                 type: 'red',
-                                content: data.mailError,
+                                content: data.errors.CredentialsError[0],
                                 buttons: {
                                     tryAgain: {
                                         text: 'Ok',
                                         btnClass: 'btn-blue',
                                         action: function () {
 
-                                            $('#modal-signUp').modal('hide');
+                                            //  $('#modal-signUp').modal('hide');
 
 
                                         }
@@ -647,13 +615,21 @@
 
                                 }
                             });
-
                         }
 
 
 
+                    }
+                    if(data.success) {
+
+                        console.log(data);
+
+
 
                     }
+
+
+
                 },
             });
 
@@ -663,6 +639,9 @@
 
 
 
+
+
 </script>
+
 {{--@endsection--}}
 
