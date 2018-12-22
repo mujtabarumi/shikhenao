@@ -167,4 +167,36 @@ class RegisterController extends Controller
 
 
     }
+
+    public function AccountActive($email,$userToken)
+    {
+
+        $userInfo=User::where('email', $email)->where('token', $userToken)->first();
+
+        if(!empty($userInfo)) {
+
+            if ($userInfo->register == 'Y') {
+
+                Session::flash('notActive', 'Your Account is already activated! please login');
+                return redirect('/');
+
+            } elseif ($userInfo->register == 'N') {
+
+                $userInfo->register = 'Y';
+                $userInfo->token = null;
+                $userInfo->save();
+
+                Session::flash('message', 'Your Account is activated Successfully');
+                Auth::loginUsingId($userInfo->userId);
+                return redirect('/');
+            }
+        }else{
+
+            Session::flash('notActive', 'Your have allready performed this action once!,Please try resend the email');
+            return redirect('/');
+
+        }
+
+
+    }
 }

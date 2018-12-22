@@ -401,15 +401,15 @@
 
 
 
-                                <div class="form-group">
-                                    <div class="col-md-6 col-md-offset-4">
+                                {{--<div class="form-group">--}}
+                                    {{--<div class="col-md-6 col-md-offset-4">--}}
 
-                                        <label>
-                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                        </label>
+                                        {{--<label>--}}
+                                            {{--<input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me--}}
+                                        {{--</label>--}}
 
-                                    </div>
-                                </div>
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
                                     <input  id="SIGNUP" value="Sign Up" class="btn btn-green list-link__btn" type="button">
 
@@ -622,15 +622,14 @@
                     }
                     if(data.success) {
 
-                        {{--let url = "{{ route('Login.Redirection',[':route']) }}";--}}
+                        let url = "{{ route('Login.Redirection',[':route']) }}";
 
-                        {{--url = url.replace(':route',data.gotoRoute);--}}
+                        url = url.replace(':route',data.gotoRoute);
 
-                        console.log(data);
+                       // console.log(data);
 
                         //window.open(url);
-
-
+                        window.location.href=url;
 
 
                     }
@@ -643,6 +642,50 @@
 
     });
 
+
+@if(Session::has('notActive'))
+
+    $.alert({
+    title: 'Error!',
+    type: 'red',
+    content: '{{ Session::get('notActive') }}',
+    buttons: {
+        tryAgain: {
+            text: 'Ok',
+            btnClass: 'btn-blue',
+            action: function () {
+
+
+             //   window.location.href='/';
+
+            }
+        }
+
+    }
+});
+@endif
+    @if(Session::has('message'))
+
+    $.alert({
+    title: 'Success!',
+    type: 'green',
+    content: '{{ Session::get('message') }}',
+    buttons: {
+        tryAgain: {
+            text: 'Ok',
+            btnClass: 'btn-blue',
+            action: function () {
+
+
+
+
+            }
+        }
+
+    }
+});
+
+@endif
 
 
 

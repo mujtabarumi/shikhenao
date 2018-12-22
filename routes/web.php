@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('home');
 })->name('/');
 
+Route::get('/Account-Active/{email}/{token}', 'Auth\RegisterController@AccountActive')->name('account.active');
+
 Route::view('Course-List', 'courseList')->name('course.list');
 Route::view('Course-Teacher', 'teacherGrid')->name('course.teacher');
 Route::view('Course-Teacher-Details', 'teacherDetails')->name('course.teacherDetails');

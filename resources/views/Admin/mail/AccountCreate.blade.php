@@ -13,7 +13,7 @@ Password: {{$pass}}<br>
 
 
 
-<a href="">Please click this link to activate your account</a>
+<a href="{{route('account.active',['email'=>$email,'userToken'=>$userToken])}}">Please click this link to activate your account</a>
 
 
 </body>
