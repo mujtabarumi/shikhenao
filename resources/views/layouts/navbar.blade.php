@@ -622,7 +622,14 @@
                     }
                     if(data.success) {
 
+                        {{--let url = "{{ route('Login.Redirection',[':route']) }}";--}}
+
+                        {{--url = url.replace(':route',data.gotoRoute);--}}
+
                         console.log(data);
+
+                        //window.open(url);
+
 
 
 

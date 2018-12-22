@@ -25,6 +25,9 @@ Route::POST('/Registration', 'Auth\RegisterController@sendNewUserRegisterMail')-
 Route::POST('/Login', 'Auth\LoginController@login')->name('LOGIN');
 
 
+Route::get('/Dashboard/{route}', 'DashboardController@redirect')->name('Login.Redirection');
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
