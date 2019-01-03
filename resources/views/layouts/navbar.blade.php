@@ -358,10 +358,13 @@
                                     <div class="col-md-8">
                                     <select id="userType" name="userType" required class="form-control input-item">
                                         <option value="">Select</option>
-                                        @foreach(USER_TYPE as $type)
-                                            @if($type['code'] != 'admin')
-                                            <option value="{{$type['code']}}">{{$type['name']}}</option>
-                                            @endif
+                                    @php
+                                        $USER_TYPE=\App\Roles::whereIn('name', [USER_TYPE['student']['name'],USER_TYPE['teacher']['name']])->get()
+                                    @endphp
+                                        @foreach($USER_TYPE as $type)
+
+                                            <option value="{{$type['id']}}">{{$type['display_name']}}</option>
+
                                         @endforeach
                                     </select>
                                         <span class="text-danger">
@@ -583,7 +586,7 @@
 
 
             $.ajax({
-                url:'{{ route('LOGIN') }}',
+                url:'{{ route('postlogin') }}',
                 type:'POST',
                 data:{email:$('#logEmail').val(),password:$('#logPassword').val(),_token:"{{csrf_token()}}"},
                 success:function(data) {
@@ -622,13 +625,15 @@
                     }
                     if(data.success) {
 
-                        let url = "{{ route('Login.Redirection',[':route']) }}";
 
-                        url = url.replace(':route',data.gotoRoute);
+
+                        let url = "{{ route('voyager.dashboard') }}";
+
+                      //  url = url.replace(':route',data.gotoRoute);
 
                        // console.log(data);
 
-                        //window.open(url);
+                       // window.open(url,'_blank');
                         window.location.href=url;
 
 

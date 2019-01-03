@@ -51,9 +51,9 @@ define('RESULT_SYSTEM',array(
 ));
 
 define('USER_TYPE',array(
-    'admin'=>array('name'=>'Admin','code'=>'admin'),
-    'student'=>array('name'=>'Student','code'=>'stude'),
-    'teacher'=>array('name'=>'Teacher','code'=>'teach'),
+    'admin'=>array('name'=>'admin','code'=>'Admin'),
+    'student'=>array('name'=>'student','code'=>'Student'),
+    'teacher'=>array('name'=>'teacher','code'=>'Teacher'),
 
 ));
 define('CAREER_QUES',array(

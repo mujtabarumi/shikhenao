@@ -24,12 +24,21 @@ Route::view('Course-Teacher-Details', 'teacherDetails')->name('course.teacherDet
 
 Route::view('/Admin', 'Admin.dashboard')->name('admin.dashboard');
 Route::POST('/Registration', 'Auth\RegisterController@sendNewUserRegisterMail')->name('registration');
-Route::POST('/Login', 'Auth\LoginController@login')->name('LOGIN');
+//Route::POST('/Login', 'Auth\LoginController@login')->name('LOGIN');
 
 
-Route::get('/Dashboard/{route}', 'DashboardController@redirect')->name('Login.Redirection');
+//Route::get(env('APP_URL').'{route}', 'DashboardController@redirect')->name('Login.Redirection');
+
+
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
+
+Route::post('login', ['uses' => 'Auth\LoginController@login', 'as' => 'postlogin']);

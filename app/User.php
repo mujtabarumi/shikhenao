@@ -6,10 +6,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends \TCG\Voyager\Models\User
 {
-    protected $table='user';
-    protected $primaryKey='userId';
+    protected $table='users';
+    protected $primaryKey='id';
     public $timestamps=false;
 
     use Notifiable;
@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'fkuserTypeId', 'email', 'password','register','token',
+        'email', 'password','register','token',
     ];
 
     /**
