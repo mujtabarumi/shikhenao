@@ -23,22 +23,33 @@ Route::view('Course-Teacher-Details', 'teacherDetails')->name('course.teacherDet
 
 
 Route::view('/Admin', 'Admin.dashboard')->name('admin.dashboard');
+
 Route::POST('/Registration', 'Auth\RegisterController@sendNewUserRegisterMail')->name('registration');
-//Route::POST('/Login', 'Auth\LoginController@login')->name('LOGIN');
+Route::POST('/Login', 'Auth\LoginController@login')->name('LOGIN');
 
 
-//Route::get(env('APP_URL').'{route}', 'DashboardController@redirect')->name('Login.Redirection');
-
-
+Route::get('/Dashboard/{route}', 'DashboardController@redirect')->name('Login.Redirection');
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+/*Admin */
 
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
+/*category*/
+Route::get('/Admin-course-category-show', 'Admin\CourseCategoryController@show')->name('admin.courseCategory.show');
+Route::POST('/Admin-course-category-show', 'Admin\CourseCategoryController@getData')->name('admin.courseCategory.get');
 
-Route::post('login', ['uses' => 'Auth\LoginController@login', 'as' => 'postlogin']);
+Route::POST('/Admin-course-category-Add', 'Admin\CourseCategoryController@add')->name('admin.courseCategory.add');
+
+Route::POST('/Admin-course-category-Edit', 'Admin\CourseCategoryController@edit')->name('admin.courseCategory.edit');
+
+Route::POST('/Admin-course-category-Update/{id}', 'Admin\CourseCategoryController@update')->name('admin.courseCategory.update');
+Route::POST('/Admin-course-Update/{id}', 'Admin\CourseController@update')->name('admin.course.update');
+
+/*course*/
+Route::get('/Admin-course-show', 'Admin\CourseController@show')->name('admin.courses.show');
+Route::POST('/Admin-course-show', 'Admin\CourseController@getData')->name('admin.course.get');
+Route::POST('/Admin-course-Add', 'Admin\CourseController@add')->name('admin.course.add');
+Route::POST('/Admin-course-Edit', 'Admin\CourseController@edit')->name('admin.course.edit');

@@ -51,9 +51,9 @@ define('RESULT_SYSTEM',array(
 ));
 
 define('USER_TYPE',array(
-    'admin'=>array('name'=>'admin','code'=>'Admin'),
-    'student'=>array('name'=>'student','code'=>'Student'),
-    'teacher'=>array('name'=>'teacher','code'=>'Teacher'),
+    'admin'=>array('name'=>'Admin','code'=>'admin'),
+    'student'=>array('name'=>'Student','code'=>'stude'),
+    'teacher'=>array('name'=>'Teacher','code'=>'teach'),
 
 ));
 define('CAREER_QUES',array(
@@ -62,13 +62,26 @@ define('CAREER_QUES',array(
 
 ));
 
+
+define('OTHERS',"others");
+
+/*strat*/
 define('STATUS',array(
     "1"=>'Active',
-    "0"=>'Inactive',
-
+    "2"=>'Inactive',
+    "0"=>'Deleted',
+));
+define('CATEGORY_TYPE',array(
+    "1"=>'Academic',
+    "2"=>'Non Academic',
 
 ));
-define('OTHERS',"others");
+define('COURSE_FEE',array(
+    "1"=>'Daily',
+    "2"=>'Weekly',
+    "3"=>'Monthly',
+
+));
 
 
 

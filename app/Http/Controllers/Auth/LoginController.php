@@ -61,8 +61,7 @@ class LoginController extends Controller
 //
 //        }
 
-
-        return Response::json(['success' => '1','gotoRoute' => config('voyager.user.redirect')]);
+        return Response::json(['success' => '1','gotoRoute' => 'admin.dashboard']);
 
     }
 
@@ -91,7 +90,7 @@ class LoginController extends Controller
                     // Send the normal successful login response
 
 
-                    return Response::json(['success' => '1','gotoRoute' => config('voyager.user.redirect')]);
+                    return Response::json(['success' => '1','gotoRoute' => 'admin.dashboard']);
 
 
                 }

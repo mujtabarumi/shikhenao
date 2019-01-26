@@ -1,4 +1,3 @@
-
 @extends('layouts.panel.mainLayout')
 
 @section('content')
@@ -346,7 +345,7 @@
 
 
 @endsection
-@section('js')
+@section('foot-js')
 
 
 @endsection

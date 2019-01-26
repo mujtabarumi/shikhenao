@@ -1,7 +1,7 @@
 <div class="left side-menu">
     <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect"><i class="ion-close"></i></button>
     <div class="left-side-logo d-block d-lg-none">
-        <div>ISP</h2>
+        <div>Shikhenao</h2>
             {{--<a href="{{route('index')}}" class="logo"><img src="{{url('public/images/logo-dark.png')}}" height="20" alt="logo"></a>--}}
         </div>
     </div>
@@ -14,10 +14,12 @@
                         {{--<i class="dripicons-blog"></i> <span>Dashboard </span>--}}
                     {{--</a>--}}
                 </li>
-                <li class="has_sub"><a href="javascript:void(0);" class="waves-effect"><i class="dripicons-meter"></i> <span>Package </span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>
+                <li class="has_sub"><a href="javascript:void(0);" class="waves-effect">
+                        <i class="dripicons-meter"></i> <span>Courses </span><span class="menu-arrow float-right">
+                            <i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
-                        {{--<li><a href="{{route('package.show')}}" class="waves-effect">Internet Package</a></li>--}}
-                        {{--<li><a href="{{route('package.cable.show')}}" class="waves-effect">Cable Package</a></li>--}}
+                        <li><a href="{{route('admin.courseCategory.show')}}" class="waves-effect">Category</a></li>
+                        <li><a href="{{route('admin.courses.show')}}" class="waves-effect">All Course</a></li>
 
                     </ul>
                 </li>

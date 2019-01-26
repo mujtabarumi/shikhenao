@@ -3,14 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Coursecategory extends Model
+class CourseCategory extends Model
 {
-    //
-    use SoftDeletes;
+    public $timestamps = false;
+    protected $primaryKey = 'id';
     protected $table = 'coursecategory';
-//    public $timestamps = false;
-    public $primaryKey = 'categoryId';
-    protected $dates = ['deleted_at'];
 }

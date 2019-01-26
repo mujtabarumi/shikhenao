@@ -27,7 +27,6 @@ class DashboardController extends Controller
     }
     public function redirect($route)
     {
-//        return view('Admin.dashboard');
-        return config('voyager.user.redirect', route('voyager.dashboard'));
+        return view('Admin.dashboard');
     }
 }
