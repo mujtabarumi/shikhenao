@@ -53,3 +53,7 @@ Route::get('/Admin-course-show', 'Admin\CourseController@show')->name('admin.cou
 Route::POST('/Admin-course-show', 'Admin\CourseController@getData')->name('admin.course.get');
 Route::POST('/Admin-course-Add', 'Admin\CourseController@add')->name('admin.course.add');
 Route::POST('/Admin-course-Edit', 'Admin\CourseController@edit')->name('admin.course.edit');
+
+
+/*student */
+Route::get('/Student-resume', 'Student\StudentController@showResume')->name('student.resume');

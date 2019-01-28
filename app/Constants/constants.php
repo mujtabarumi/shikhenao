@@ -50,12 +50,7 @@ define('RESULT_SYSTEM',array(
     "class"=>'3'
 ));
 
-define('USER_TYPE',array(
-    'admin'=>array('name'=>'Admin','code'=>'admin'),
-    'student'=>array('name'=>'Student','code'=>'stude'),
-    'teacher'=>array('name'=>'Teacher','code'=>'teach'),
 
-));
 define('CAREER_QUES',array(
     "Ques1"=>'Why Do You Want to Leave Your Current Job?',
     "Ques2"=>'Why you are intersted for the position applied for?',
@@ -80,6 +75,13 @@ define('COURSE_FEE',array(
     "1"=>'Daily',
     "2"=>'Weekly',
     "3"=>'Monthly',
+
+));
+
+define('USER_TYPE',array(
+    'admin'=>array('name'=>'Admin','code'=>'admin'),
+    'student'=>array('name'=>'Student','code'=>'stude'),
+    'teacher'=>array('name'=>'Teacher','code'=>'teach'),
 
 ));
 

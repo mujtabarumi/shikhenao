@@ -34,15 +34,15 @@
                             <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><img src="{{url('public/images/users/user-1.jpg')}}" alt="user" class="rounded-circle"></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
                                 <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
-                                {{--<a class="dropdown-item" href="{{ route('logout') }}"--}}
-                                   {{--onclick="event.preventDefault();--}}
-                                                     {{--document.getElementById('logout-form').submit();">--}}
-                                    {{--<i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> {{ __('Logout') }}--}}
-                                {{--</a>--}}
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    <i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> {{ __('Logout') }}
+                                </a>
 
-                                {{--<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
-                                    {{--@csrf--}}
-                                {{--</form>--}}
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
                         </li>
                     </ul>

@@ -26,8 +26,8 @@
 
 
 
-                {{--@if(Auth::user()->fkusertype=="Admin")--}}
-                    {{--<li class="has_sub"><a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span>Employee </span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>--}}
+                @if(Auth::user()->fkuserTypeId==USER_TYPE['student']['code'])
+                    {{--<li class="has_sub"><a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span>My resume </span><span class="menu-arrow float-right"><i class="mdi mdi-chevron-right"></i></span></a>--}}
                         {{--<ul class="list-unstyled">--}}
                             {{--<li>--}}
                                 {{--<a href="{{route('employee.show')}}" class="waves-effect">--}}
@@ -43,7 +43,11 @@
                         {{--</ul>--}}
 
                     {{--</li>--}}
-                {{--@endif--}}
+
+                    <a href="{{route('student.resume')}}" class="waves-effect">
+                    <i class="dripicons-blog"></i> <span>My resume  </span>
+                    </a>
+                @endif
 
 
                 {{--<li>--}}

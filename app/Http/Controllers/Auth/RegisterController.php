@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Students;
+use App\Teachers;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -181,6 +183,19 @@ class RegisterController extends Controller
                 return redirect('/');
 
             } elseif ($userInfo->register == 'N') {
+
+                if ($userInfo->fkuserTypeId==USER_TYPE['student']['code']){
+
+                    $student=new Students();
+                    $student->fkuserId=$userInfo->userId;
+                    $student->studentEmail=$email;
+                    $student->save();
+                }elseif ($userInfo->fkuserTypeId==USER_TYPE['teacher']['code']){
+
+                    $teacher=new Teachers();
+                    $teacher->teacherEmail=$email;
+                    $teacher->save();
+                }
 
                 $userInfo->register = 'Y';
                 $userInfo->token = null;
