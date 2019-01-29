@@ -57,3 +57,6 @@ Route::POST('/Admin-course-Edit', 'Admin\CourseController@edit')->name('admin.co
 
 /*student */
 Route::get('/Student-resume', 'Student\StudentController@showResume')->name('student.resume');
+Route::POST('/Student-Info-edit', 'Student\StudentController@showInforForEdit')->name('student.showInfo');
+
+Route::post('/Student-Info-update/{student}', 'Student\StudentController@StudentInfoUpdate')->name('student.updateCandidateInfo');

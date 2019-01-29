@@ -3,12 +3,18 @@
 @section('panelContent')
 
 <style>
-    .glyphicon {  margin-bottom: 10px;margin-right: 10px;}
-
-    small {
-        display: block;
-        line-height: 1.428571429;
-        color: #999;
+    .container{
+        padding:5%;
+    }
+    .container .img{
+        text-align:center;
+    }
+    .container .details{
+        border-left:3px solid #ded4da;
+    }
+    .container .details p{
+        font-size:15px;
+        font-weight:bold;
     }
 </style>
 
@@ -41,35 +47,35 @@
                 <div class="card">
                     <div class="card-header">My resume</div>
                     <div class="card-body ">
-
+                        <div class="container">
                         <div class="row">
-
-                        <div class="col-sm-6 col-md-4">
-                            <img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive" />
-                        </div>
-                        <div class="col-sm-6 col-md-8">
-                            <h4>
-                                {{$studentInfo->studentFirstName." ".$studentInfo->studentLastName}}
-                            </h4>
-                            @if($studentAddress!=null)
-                                @foreach($studentAddress as $address)
-                                    <small><cite title="#">{{$address->details}},{{$address->streetName}},<span>{{$address->cityName}}, {{$address->state}},{{$address->country}}</span> <i class="glyphicon glyphicon-map-marker">
-                                            </i></cite></small>
-                                @endforeach
-                            @else
-                                <small><cite title="#"> <i class="glyphicon glyphicon-map-marker">
-                                        </i></cite></small>
-                            @endif
-                            <p>
-                                <i class="glyphicon glyphicon-envelope"></i>{{$studentInfo->studentEmail}}
-                                <br />
-                                <i class="glyphicon glyphicon-phone"></i>{{$studentInfo->phone}}
-                                <br />
-                                <i class="glyphicon glyphicon-gift"></i>{{$studentInfo->studentDOB}}</p>
-
-
+                            <div class="col-md-6 img">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzOpl3-kqfNbPcA_u_qEZcSuvu5Je4Ce_FkTMMjxhB-J1wWin-Q"  alt="" class="img-rounded">
+                            </div>
+                            <div class="col-md-6 details">
+                                <blockquote>
+                                    <h5>{{$studentInfo->studentFirstName." ".$studentInfo->studentLastName}} <span><a style="cursor: pointer" onclick="editCandidate()"><i class="ion-edit"></i></a></span></h5>
+                                    @if($studentAddress!=null)
+                                        @foreach($studentAddress as $address)
+                                            <small><cite title="#">{{$address->details}},{{$address->streetName}},<span>{{$address->cityName}}, {{$address->state}},{{$address->country}}</span> <i class="glyphicon glyphicon-map-marker">
+                                                    </i></cite></small>
+                                        @endforeach
+                                    @else
+                                        <small><cite title="#"> <i class="glyphicon glyphicon-map-marker">
+                                                </i></cite></small>
+                                    @endif
+                                    </blockquote>
+                                <p>
+                                    {{$studentInfo->studentProfession}} <br>
+                                    {{$studentInfo->studentEmail}} <br>
+                                    {{$studentInfo->phone}} <br>
+                                    {{$studentInfo->studentDOB}}
+                                </p>
+                            </div>
                         </div>
                         </div>
+
+
 
                         {{--<div class="profile-info profile-section flex no-column no-wrap">--}}
 
@@ -146,26 +152,28 @@
             });
             @endif
         });
-        {{--function editCandidate() {--}}
-            {{--var id= '{{$studentInfo->candidateId}}';--}}
-            {{--var name = '{{$studentInfo->name}}';--}}
-            {{--var professionTitle = '{{$studentInfo->professionTitle}}';--}}
-            {{--var phone = '{{$studentInfo->phone}}';--}}
-            {{--var email = '{{$studentInfo->email}}';--}}
-            {{--var addressId = '{{$studentInfo->address_addressId}}';--}}
+        function editCandidate() {
+            var id= '{{$studentInfo->studentId}}';
+            var firstName = '{{$studentInfo->studentFirstName}}';
+            var lastName = '{{$studentInfo->studentLastName}}';
+            var professionTitle = '{{$studentInfo->studentProfession}}';
+            var phone = '{{$studentInfo->phone}}';
+            var email = '{{$studentInfo->studentEmail}}';
+            var dob = '{{$studentInfo->studentDOB}}';
+            var addressId = '{{$studentInfo->fkAddressId}}';
 
-            {{--$.ajax({--}}
-                {{--type: "POST",--}}
-                {{--url: '{{route('employee.showInfo')}}',--}}
-                {{--data: {name:name,profession:professionTitle,phone:phone,email:email,id:id,address:addressId},--}}
-                {{--success: function(data){--}}
-                    {{--$('.modal-body').html(data);--}}
-                    {{--$('#myModalLabel').html("Edit-Candidate Info!");--}}
-                    {{--$('#myModal').modal({show:true});--}}
+            $.ajax({
+                type: "POST",
+                url: '{{route('student.showInfo')}}',
+                data: {firstName:firstName,lastName:lastName,profession:professionTitle,phone:phone,email:email,id:id,address:addressId,dob:dob},
+                success: function(data){
+                    $('.modal-body').html(data);
+                    $('#myModalLabel').html("Edit-Student Info!");
+                    $('#myModal').modal({show:true});
 
-                {{--},--}}
-            {{--});--}}
-        {{--}--}}
+                },
+            });
+        }
         {{--function editCandidateAboutMe() {--}}
             {{--var id= '{{$studentInfo->candidateId}}';--}}
             {{--$.ajax({--}}

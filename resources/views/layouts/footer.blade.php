@@ -75,6 +75,8 @@
         <div class="footer__bottom">2018</div>
     </div>
 </footer>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <script src="{{url('public/assets/lib/js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{url('public/assets/lib/js/bootstrap.min.js')}}"></script>
 <script src="{{url('public/assets/lib/slick/slick.min.js')}}"></script>
@@ -84,6 +86,10 @@
 {{--<script src="{{url('public/assets/js/home-2.js')}}"></script>--}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+<!-- datepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>--}}
 
 @yield('foot-js')
 
