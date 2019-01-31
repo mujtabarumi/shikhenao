@@ -22,7 +22,7 @@ Route::view('Course-Teacher', 'teacherGrid')->name('course.teacher');
 Route::view('Course-Teacher-Details', 'teacherDetails')->name('course.teacherDetails');
 
 
-Route::view('/Admin', 'Admin.dashboard')->name('admin.dashboard');
+//Route::view('/Admin', 'Admin.dashboard')->name('admin.dashboard');
 
 Route::POST('/Registration', 'Auth\RegisterController@sendNewUserRegisterMail')->name('registration');
 Route::POST('/Login', 'Auth\LoginController@login')->name('LOGIN');
@@ -34,6 +34,7 @@ Route::get('/Dashboard/{route}', 'DashboardController@redirect')->name('Login.Re
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/Dashboard/redirection', 'DashboardController@redirectTo')->name('admin.dashboard');
 
 /*Admin */
 
@@ -71,3 +72,13 @@ Route::post('/Student-Update-Education/{eduId}', 'Student\StudentController@upda
 Route::post('/Student-Edit-Education', 'Student\StudentController@editStudentEducation')->name('student.editStudentEducation');
 Route::post('/Student-delete-Education', 'Student\StudentController@deleteStudentducation')->name('student.deleteEducation');
 
+
+Route::post('/Student-WorkExperience', 'Student\StudentController@StudentAddWorkExperience')->name('student.addStudentWorkExperience');
+Route::post('/Student-Add-WorkExperience/{student}', 'Student\StudentController@insertStudentWorkExperience')->name('student.insertStudentWorkExperience');
+Route::post('/Student-Update-WorkExperience', 'Student\StudentController@editStudentWorkExperience')->name('student.editStudentWorkExperience');
+Route::post('/Student-Update-WorkExperience/{expId}', 'Student\StudentController@updateStudentWorkExperience')->name('student.updateStudentWorkExperience');
+Route::post('/Student-delete-WorkExperience', 'Student\StudentController@deleteStudentWorkExperience')->name('student.deleteWorkExperience');
+
+
+Route::get('/Student-Requested-Course', 'Student\StudentController@StudentRequestedCourse')->name('student.requestedCourse');
+Route::post('/Student-Requested-Course-show-all', 'Student\StudentController@StudentRequestedCourseWithData')->name('student.requestedCourse.showAll');

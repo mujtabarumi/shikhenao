@@ -84,17 +84,17 @@
                         </div>
                         </div>
                         <hr>
-                        <div class="container">
+                        <div class="">
 
                             <h5 class="dark profile-title">About me<span><a style="cursor: pointer" onclick="editCandidateAboutMe()"><i class="ion-edit"></i></a></span></h5>
                             <p>{{$studentInfo->studentAboutMe}}</p>
                         </div>
 <hr>
-                        <div id="Education" class="container">
+                        <div id="Education" class="">
                             <h5 class="dark profile-title">Education<span><a style="cursor: pointer" onclick="addCandidateEducation()"><i class="ion-plus"></i></a></span></h5>
                             @foreach($studentEducation as $edu)
                                 <div class="profile-education">
-                                    <h5 class="dark">{{$edu->organizationName}}&nbsp;<span><a style="cursor: pointer;" data-panel-id="{{$edu->educationId}}" onclick="editCandidateEducation(this)"><i class="ion-edit"></i></a><a  style="cursor: pointer;" data-panel-id="{{$edu->educationId}}" onclick="deleteEducation(this)"><i class="fa fa-times"></i></a></span></h5>
+                                    <h5 class="dark">{{$edu->organizationName}}&nbsp;<span><a style="cursor: pointer;" data-panel-id="{{$edu->educationId}}" onclick="editCandidateEducation(this)"><i class="ion-edit"></i></a><a  style="cursor: pointer;" data-panel-id="{{$edu->educationId}}" onclick="deleteEducation(this)"><i class="fa fa-trash"></i></a></span></h5>
                                     <p>{{$edu->degreeName}}</p>
                                     <p>Status:@if($edu->EducationVisible=='0') Not visible @elseif($edu->EducationVisible=='1') Visible @endif</p>
                                     <p class="ultra-light">{{$edu->startDate}} - @if($edu->isCurrentlyRunning=='0'){{$edu->endDate}}@else{{"Currenty Running"}}@endif</p>
@@ -105,12 +105,12 @@
                         </div> <!-- end .profile-education-wrapper -->
                         <hr>
 
-                        <div id="workExperience" class="container">
-                            <h5 class="dark profile-title">Work experience<span><a style="cursor: pointer"  onclick="addCandidateWorkExperience()"><i class="ion-plus"></i></a></span></h5>
+                        <div id="workExperience" class="">
+                            <h5 class="dark profile-title">Work experience<span> <a style="cursor: pointer"  onclick="addCandidateWorkExperience()"><i class="ion-plus"></i></a></span></h5>
                             @foreach($workExperience as $workingExp)
                                 <div class="profile-experience flex space-between no-wrap no-column">
                                     <div class="profile-experience-left">
-                                        <h5 class="profile-designation dark">{{$workingExp->Designation}}<span><a data-panel-id="{{$workingExp->workExperienceId}}" onclick="editCandidateWorkExperience(this)" style="cursor: pointer;"><i  class="ion-edit"></i></a><a class="deleteIcon" data-panel-id="{{$workingExp->workExperienceId}}"onclick="deleteWorkExperince(this)" style="cursor: pointer;" onclick=""><i class="ion-android-delete"></i></a></span></h5>
+                                        <h5 class="profile-designation dark">{{$workingExp->Designation}}<span><a data-panel-id="{{$workingExp->workExperienceId}}" onclick="editCandidateWorkExperience(this)" style="cursor: pointer;"><i  class="ion-edit"></i></a><a class="deleteIcon" data-panel-id="{{$workingExp->workExperienceId}}"onclick="deleteWorkExperince(this)" style="cursor: pointer;" onclick=""><i class="fa fa-trash"></i></a></span></h5>
                                         <h5 class="profile-company dark">{{$workingExp->comapnyName}}</h5>
                                         {{--<p class="small ultra-light">{{$workingExp->duration}}</p>--}}
                                         <p>Status:@if($workingExp->isVisible=='0') Not visible @elseif($workingExp->isVisible=='1') Visible @endif</p>
@@ -203,47 +203,47 @@
                 },
             });
         }
-        {{--function deleteWorkExperince(x) {--}}
-            {{--$.confirm({--}}
-                {{--title: 'Confirm!',--}}
-                {{--content: 'Are you sure To delete this Work-Experience?',--}}
-                {{--icon: 'fa fa-warning',--}}
-                {{--type: 'red',--}}
-                {{--typeAnimated: true,--}}
-                {{--buttons: {--}}
-                    {{--tryAgain: {--}}
-                        {{--text: 'Yes',--}}
-                        {{--btnClass: 'btn-red',--}}
-                        {{--action: function(){--}}
-                            {{--var id = $(x).data('panel-id');--}}
-                            {{--$.ajax({--}}
-                                {{--type: "POST",--}}
-                                {{--url: '{{route('employee.deleteWorkExperience')}}',--}}
-                                {{--data: {id: id},--}}
-                                {{--success: function (data) {--}}
-                                    {{--$.alert({--}}
-                                        {{--title: 'Success!',--}}
-                                        {{--type: 'green',--}}
-                                        {{--content: 'Work-Experience Deleted successfully',--}}
-                                        {{--buttons: {--}}
-                                            {{--tryAgain: {--}}
-                                                {{--text: 'Ok',--}}
-                                                {{--btnClass: 'btn-green',--}}
-                                                {{--action: function () {--}}
-                                                    {{--$('#workExperience').load(document.URL +  ' #workExperience');--}}
-                                                {{--}--}}
-                                            {{--}--}}
-                                        {{--}--}}
-                                    {{--});--}}
-                                {{--},--}}
-                            {{--});--}}
-                        {{--}--}}
-                    {{--},--}}
-                    {{--No: function () {--}}
-                    {{--},--}}
-                {{--}--}}
-            {{--});--}}
-        {{--}--}}
+        function deleteWorkExperince(x) {
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Are you sure To delete this Work-Experience?',
+                icon: 'fa fa-warning',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    tryAgain: {
+                        text: 'Yes',
+                        btnClass: 'btn-red',
+                        action: function(){
+                            var id = $(x).data('panel-id');
+                            $.ajax({
+                                type: "POST",
+                                url: '{{route('student.deleteWorkExperience')}}',
+                                data: {id: id},
+                                success: function (data) {
+                                    $.alert({
+                                        title: 'Success!',
+                                        type: 'green',
+                                        content: 'Work-Experience Deleted successfully',
+                                        buttons: {
+                                            tryAgain: {
+                                                text: 'Ok',
+                                                btnClass: 'btn-green',
+                                                action: function () {
+                                                    $('#workExperience').load(document.URL +  ' #workExperience');
+                                                }
+                                            }
+                                        }
+                                    });
+                                },
+                            });
+                        }
+                    },
+                    No: function () {
+                    },
+                }
+            });
+        }
         function deleteEducation(x) {
             $.confirm({
                 title: 'Confirm!',
@@ -285,32 +285,32 @@
                 }
             });
         }
-        {{--function addCandidateWorkExperience() {--}}
-            {{--var id= '{{$studentInfo->candidateId}}';--}}
-            {{--$.ajax({--}}
-                {{--type: "POST",--}}
-                {{--url: '{{route('employee.addCandidateWorkExperience')}}',--}}
-                {{--data: {id:id},--}}
-                {{--success: function(data){--}}
-                    {{--$('.modal-body').html(data);--}}
-                    {{--$('#myModalLabel').html("Add-Candidate Info! : Work-Experience");--}}
-                    {{--$('#myModal').modal({show:true});--}}
-                {{--},--}}
-            {{--});--}}
-        {{--}--}}
-        {{--function editCandidateWorkExperience(x) {--}}
-            {{--var id = $(x).data('panel-id');--}}
-            {{--$.ajax({--}}
-                {{--type: "POST",--}}
-                {{--url: '{{route('employee.editCandidateWorkExperience')}}',--}}
-                {{--data: {id:id},--}}
-                {{--success: function(data){--}}
-                    {{--$('.modal-body').html(data);--}}
-                    {{--$('#myModalLabel').html("Edit-Candidate Info! : Work-Experience");--}}
-                    {{--$('#myModal').modal({show:true});--}}
-                {{--},--}}
-            {{--});--}}
-        {{--}--}}
+        function addCandidateWorkExperience() {
+            var id= '{{$studentInfo->studentId}}';
+            $.ajax({
+                type: "POST",
+                url: '{{route('student.addStudentWorkExperience')}}',
+                data: {id:id},
+                success: function(data){
+                    $('.modal-body').html(data);
+                    $('#myModalLabel').html("Add-Student Info! : Work-Experience");
+                    $('#myModal').modal({show:true});
+                },
+            });
+        }
+        function editCandidateWorkExperience(x) {
+            var id = $(x).data('panel-id');
+            $.ajax({
+                type: "POST",
+                url: '{{route('student.editStudentWorkExperience')}}',
+                data: {id:id},
+                success: function(data){
+                    $('.modal-body').html(data);
+                    $('#myModalLabel').html("Edit-Student Info! : Work-Experience");
+                    $('#myModal').modal({show:true});
+                },
+            });
+        }
         function addCandidateEducation() {
             var id= '{{$studentInfo->studentId}}';
             $.ajax({

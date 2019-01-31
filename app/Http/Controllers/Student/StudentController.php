@@ -6,10 +6,12 @@ namespace App\Http\Controllers\Student;
 use App\Address;
 use App\Education;
 use App\Http\Controllers\Controller;
+use App\RequestCourse;
 use App\StudentAddress;
 use App\StudentEducation;
 use App\Students;
 use App\StudentWorkExperience;
+use App\WorkExperience;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -17,6 +19,7 @@ use Illuminate\Support\Facades\Session;
 
 use Image;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class StudentController extends Controller
 {
@@ -218,7 +221,7 @@ class StudentController extends Controller
     }
     public function updateStudentEducation($eduId,Request $r) // show add modal of employee education
     {
-
+        $studentInfo = Students::where('fkuserId', Auth::user()->userId)->first()->studentId;
 
         $EducationInfo = Education::findOrFail($eduId);
 
@@ -257,6 +260,10 @@ class StudentController extends Controller
 
         $EducationInfo->save();
 
+        StudentEducation::where('fkEducationId', $eduId)
+            ->where('fkStudentId', $studentInfo)
+            ->update(['EducationVisible' => $r->educationStatus]);
+
         Session::flash('success_msg', 'Education Updated Successfully!');
         return back();
 
@@ -270,6 +277,7 @@ class StudentController extends Controller
         $education->organizationName=$r->schoolName;
         $education->degreeName=$r->degreeName;
         $education->startDate=$r->startDate;
+
         if ($r->endDate != null){
 
             if ($r->currentlyRunning){
@@ -308,6 +316,162 @@ class StudentController extends Controller
 
         Session::flash('success_msg', 'Education Added Successfully!');
         return back();
+
+    }
+
+    public function StudentAddWorkExperience(Request $r) // show add modal of employee WorkExperience
+    {
+
+        return view('Student.addStudentWorkExperience',['id'=>$r->id]);
+
+    }
+    public function insertStudentWorkExperience($student,Request $r) // show add modal of employee WorkExperience
+    {
+
+
+        $employeeWorkExperience=new WorkExperience();
+
+        $employeeWorkExperience->comapnyName=$r->companyName;
+        $employeeWorkExperience->Designation=$r->postName;
+        $employeeWorkExperience->startDate=$r->startDate;
+
+        $employeeWorkExperience->description=$r->description;
+
+        if ($r->endDate != null){
+
+            if ($r->currentlyRunning){
+                $employeeWorkExperience->isCurrentlyRunning=$r->currentlyRunning;
+                $employeeWorkExperience->endDate=null;
+            }else{
+                $employeeWorkExperience->isCurrentlyRunning=0;
+                $employeeWorkExperience->endDate=$r->endDate;
+            }
+        }else{
+            if ($r->currentlyRunning){
+                $employeeWorkExperience->isCurrentlyRunning=$r->currentlyRunning;
+                $employeeWorkExperience->endDate=null;
+            }else{
+                $employeeWorkExperience->isCurrentlyRunning=0;
+                $employeeWorkExperience->endDate=$r->endDate;
+            }
+
+
+        }
+        $employeeWorkExperience->save();
+
+        $stuWorkExperience= new StudentWorkExperience();
+
+        $stuWorkExperience->fkWorkExperienceId=$employeeWorkExperience->workExperienceId;
+        $stuWorkExperience->isVisible=$r->experienceStatus;
+        $stuWorkExperience->fkStudentId=$student;
+        $stuWorkExperience->save();
+
+        Session::flash('success_msg', 'Work Experience Added Successfully!');
+        return back();
+
+    }
+    public function editStudentWorkExperience(Request $r) // show add modal of employee WorkExperience
+    {
+
+
+        $workExperienceInfo = Workexperience::leftJoin('studentworkexperience', 'workexperience.workExperienceId', '=', 'studentworkexperience.fkWorkExperienceId')
+            ->findOrFail($r->id);
+
+        return view('Student.editWorkExperience',['experience' => $workExperienceInfo,'id'=>$r->id]);
+
+    }
+    public function deleteStudentWorkExperience(Request $r) // show add modal of employee WorkExperience
+    {
+
+
+        $studentInfo = Students::where('fkuserId', Auth::user()->userId)->first()->studentId;
+        $deletedRows = StudentWorkExperience::where('fkWorkExperienceId', $r->id)->where('fkStudentId', $studentInfo)->delete();
+
+        $employeeEducation=WorkExperience::destroy($r->id);
+
+    }
+    public function updateStudentWorkExperience($expId,Request $r) // show add modal of employee WorkExperience
+    {
+
+        $studentInfo = Students::where('fkuserId', Auth::user()->userId)->first()->studentId;
+        $workExperienceInfo = Workexperience::findOrFail($expId);
+
+        $workExperienceInfo->comapnyName=$r->companyName;
+        $workExperienceInfo->Designation=$r->postName;
+        $workExperienceInfo->startDate=$r->startDate;
+
+        $workExperienceInfo->description=$r->description;
+
+        if ($r->endDate != null){
+
+            if ($r->currentlyRunning){
+                $workExperienceInfo->isCurrentlyRunning=$r->currentlyRunning;
+                $workExperienceInfo->endDate=null;
+            }else{
+                $workExperienceInfo->isCurrentlyRunning=0;
+                $workExperienceInfo->endDate=$r->endDate;
+            }
+        }else{
+            if ($r->currentlyRunning){
+                $workExperienceInfo->isCurrentlyRunning=$r->currentlyRunning;
+                $workExperienceInfo->endDate=null;
+            }else{
+                $workExperienceInfo->isCurrentlyRunning=0;
+                $workExperienceInfo->endDate=$r->endDate;
+            }
+
+
+        }
+
+        $workExperienceInfo->save();
+
+        StudentWorkExperience::where('fkWorkExperienceId', $expId)
+            ->where('fkStudentId', $studentInfo)
+            ->update(['isVisible' => $r->experienceStatus]);
+
+        Session::flash('success_msg', 'Work Experience Updated Successfully!');
+        return back();
+
+    }
+    public function StudentRequestedCourse()
+    {
+
+        return view('Student.requestedCourse');
+
+    }
+    public function StudentRequestedCourseWithData(Request $r)
+    {
+        $studentId = Students::where('fkuserId', Auth::user()->userId)->first()->studentId;
+        $requestedCourse = RequestCourse::select('course.courseName','course.courseFee as feeType','teachercourserelation.fkTeacherId',
+            'teacher.teacherFirstName','teacher.teacherLastName','teachercourserelation.teacherCourseFee',
+            'request_course.*','hirereport.startTime', 'hirereport.endTime','hirereport.completed')
+
+            ->leftJoin('course', 'course.id', '=', 'request_course.fkCourseId')
+//            ->leftJoin('teachercourserelation', 'teachercourserelation.fkCourseId', '=','request_course.fkCourseId')
+            ->leftJoin('teacher', 'teacher.teacherId', '=', 'request_course.fkTeacherId')
+            ->leftJoin('teachercourserelation', function($join)
+            {
+                $join->on('teachercourserelation.fkCourseId', '=', 'request_course.fkCourseId');
+                $join->on('teachercourserelation.fkTeacherId','=','request_course.fkTeacherId');
+
+            })
+            ->leftJoin('hirereport', function($join)use ($studentId)
+            {
+                $join->on('hirereport.fkTeacherCourseRelationId', '=', 'teachercourserelation.teacherCourseRelationId');
+                $join->where('hirereport.fkStudentId','=',$studentId);
+
+            });
+
+
+
+
+
+        $datatables = DataTables::of($requestedCourse)
+            ->addColumn('mergeColumn', function($row){
+            return $row->teacherFirstName.' '.$row->teacherLastName;
+        });
+
+        return $datatables->make(true);
 
     }
 

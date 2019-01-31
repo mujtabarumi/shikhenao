@@ -29,4 +29,14 @@ class DashboardController extends Controller
     {
         return view('Admin.dashboard');
     }
+    public function redirectTo()
+    {
+//        if (Auth::check()){
+//            if (USER_TYPE['student']['code']== Auth::user()->fkuserTypeId){
+//
+//                return redirect()->route('Login.Redirection',['route'=>]);
+//            }
+//        }
+        return view('Admin.dashboard');
+    }
 }

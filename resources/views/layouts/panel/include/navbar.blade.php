@@ -14,6 +14,12 @@
                         {{--<i class="dripicons-blog"></i> <span>Dashboard </span>--}}
                     {{--</a>--}}
                 </li>
+                <li>
+                    <a href="{{route('home')}}" class="waves-effect">
+                        <i class="dripicons-blog"></i> <span>Shikhenao Home</span>
+                    </a>
+                </li>
+                @if(Auth::user()->fkuserTypeId==USER_TYPE['admin']['code'])
                 <li class="has_sub"><a href="javascript:void(0);" class="waves-effect">
                         <i class="dripicons-meter"></i> <span>Courses </span><span class="menu-arrow float-right">
                             <i class="mdi mdi-chevron-right"></i></span></a>
@@ -23,6 +29,7 @@
 
                     </ul>
                 </li>
+                @endif
 
 
 
@@ -44,10 +51,17 @@
 
                     {{--</li>--}}
                     <li>
-                    <a href="{{route('student.resume')}}" class="waves-effect">
-                    <i class="dripicons-blog"></i> <span>My resume  </span>
-                    </a>
+                        <a href="{{route('student.resume')}}" class="waves-effect">
+                        <i class="dripicons-blog"></i> <span>My resume  </span>
+                        </a>
                     </li>
+                    <li>
+                        <a href="{{route('student.requestedCourse')}}" class="waves-effect">
+                        <i class="dripicons-blog"></i> <span>Requested Course</span>
+                        </a>
+                    </li>
+
+
                 @endif
 
 

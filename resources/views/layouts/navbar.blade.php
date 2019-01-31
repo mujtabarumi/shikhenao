@@ -47,8 +47,30 @@
                     <div class="nav-right__notifications"><a class="nav-right__item" href="#"><i class="glyph-icon flaticon-shapes nav-right__item__icon"></i><span class="nav-right__item__notification">02</span></a><a class="nav-right__item" href="#"><i class="glyph-icon flaticon-commerce-1 nav-right__item__icon"></i><span class="nav-right__item__notification">02</span></a></div>
                     <button class="btn btn-default button-default nav-right__become" type="submit">become an Instructor</button>
                     <div class="nav-right__signin">
+                        @if (!Auth::check())
+
                         <a class="nav-right__signin__link" href="#" data-toggle="modal" data-target="#modal-signin" data-modal-target="#sign-in">Sign in</a><span>|</span>
                         <a class="nav-right__signin__link" href="#" data-toggle="modal" data-target="#modal-signUp" data-modal-target="#sign-up1">sign up</a>
+
+                        @endif
+                        @if(Auth::check())
+
+{{--                            @if(USER_TYPE['student']['code']== Auth::user()->fkuserTypeId || USER_TYPE['teacher']['code']== Auth::user()->fkuserTypeId )--}}
+
+                                <a class="nav-right__signin__link" href="{{route('admin.dashboard')}}" class="button">Profile</a><span>|</span>
+
+                                <a href="{{ route('logout') }}" class="nav-right__signin__link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+
+                            {{--@endif--}}
+
+                            @endif
+
                     </div>
                 </div>
             </nav>
@@ -107,7 +129,7 @@
                     <div class="nav-right__notifications"><a class="nav-right__item" href="#"><i class="glyph-icon flaticon-shapes nav-right__item__icon"></i><span class="nav-right__item__notification">02</span></a><a class="nav-right__item" href="#"><i class="glyph-icon flaticon-commerce-1 nav-right__item__icon"></i><span class="nav-right__item__notification">02</span></a></div>
                     <button class="form-search__button--mobile" type="submit" data-toggle="collapse" data-target="#form-search-mobile"><i class="glyph-icon flaticon-search form-search__icon"></i></button>
                     <button class="button-default nav-right__become" type="submit">become an Instructor</button>
-                    <div class="nav-right__signin"><a class="nav-right__signin__link" href="#" data-toggle="modal" data-target="#modal-signin" data-modal-target="#sign-in">Sign in</a><span>|</span><a class="nav-right__signin__link" href="#" data-toggle="modal" data-target="#modal-signin" data-modal-target="#sign-up">sign up</a></div>
+                    <div class="nav-right__signin"><a class="nav-right__signin__link" href="#" data-toggle="modal" data-target="#modal-signin" data-modal-target="#sign-in">Sign in</a><span>|</span><a class="nav-right__signin__link" href="#" data-toggle="modal" data-target="#modal-signUp" data-modal-target="#sign-up1">sign up</a></div>
                 </div>
                 <form class="navbar-form form-search--mobile" id="form-search-mobile">
                     <div class="container">
@@ -132,64 +154,64 @@
                 <ul class="menu-mobile__list ">
                     <li class="menu-mobile__item"><a class="menu-mobile__link" href="#">home</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>
                         <ul class="dropdown-menu dropdown-mobile">
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="index.html">home 1</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="index-2.html">home 2</a></li>
+                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="{{route('course.list')}}">Undergraduate</a></li>
+                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="{{route('course.list')}}">Graduate</a></li>
                         </ul>
                     </li>
-                    <li class="menu-mobile__item"><a class="menu-mobile__link" href="#">course</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>
-                        <ul class="dropdown-menu dropdown-mobile">
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="categories.html">course categories</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-listing.html">course list</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-grid.html">course grid</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-single.html">course single</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-detail.html">course details</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="search-result.html">course search result</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="instructor-details.html">instructor details</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-mobile__item"><a class="menu-mobile__link" href="#">bundle</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>
-                        <ul class="dropdown-menu dropdown-mobile">
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-bundle.html">course bundle</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="bundle-details.html">course bundle details</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-mobile__item"><a class="menu-mobile__link" href="#">partner</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>
-                        <ul class="dropdown-menu dropdown-mobile">
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="partner-listing.html">partner list</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="partner-details.html">partner details</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-mobile__item"><a class="menu-mobile__link" href="#">blog</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>
-                        <ul class="dropdown-menu dropdown-mobile">
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="blog-grid.html">blog grid</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="blog-details-sidebar.html">blog details with sidebar</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="blog-details.html">blog details</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-mobile__item"><a class="menu-mobile__link" href="#">pages</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>
-                        <ul class="dropdown-menu dropdown-mobile">
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="pricing-table.html">pricing table</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="contact.html">contact</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="coming-soon.html">coming soon</a></li>
-                            <li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="404.html">404 page</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-mobile__item"><a class="menu-mobile__link" href="#">elements</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>
-                        <ul class="dropdown-menu dropdown-mobile">
-                            <li class="dropdown-submenu"><a class="dropdown-mobile__link" href="#">sub level 1</a><span class="glyph-icon flaticon-arrows-3 menu-mobile__icon"></span>
-                                <ul class="dropdown-menu dropdown-mobile">
-                                    <li class="dropdown-mobile__item"><a class="dropdown-mobile__link" href="#">sub level 1.1</a></li>
-                                    <li class="dropdown-mobile__item"><a class="dropdown-mobile__link" href="#">sub level 1.2</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu"><a class="dropdown-mobile__link" href="#">sub level 2</a><span class="glyph-icon flaticon-arrows-3 menu-mobile__icon"></span>
-                                <ul class="dropdown-menu dropdown-mobile">
-                                    <li class="dropdown-mobile__item"><a class="dropdown-mobile__link" href="#">sub level 2.1</a></li>
-                                    <li class="dropdown-mobile__item"><a class="dropdown-mobile__link" href="#">sub level 2.2</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    {{--<li class="menu-mobile__item"><a class="menu-mobile__link" href="#">course</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>--}}
+                        {{--<ul class="dropdown-menu dropdown-mobile">--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="categories.html">course categories</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-listing.html">course list</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-grid.html">course grid</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-single.html">course single</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-detail.html">course details</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="search-result.html">course search result</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="instructor-details.html">instructor details</a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
+                    {{--<li class="menu-mobile__item"><a class="menu-mobile__link" href="#">bundle</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>--}}
+                        {{--<ul class="dropdown-menu dropdown-mobile">--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="course-bundle.html">course bundle</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="bundle-details.html">course bundle details</a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
+                    {{--<li class="menu-mobile__item"><a class="menu-mobile__link" href="#">partner</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>--}}
+                        {{--<ul class="dropdown-menu dropdown-mobile">--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="partner-listing.html">partner list</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="partner-details.html">partner details</a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
+                    {{--<li class="menu-mobile__item"><a class="menu-mobile__link" href="#">blog</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>--}}
+                        {{--<ul class="dropdown-menu dropdown-mobile">--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="blog-grid.html">blog grid</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="blog-details-sidebar.html">blog details with sidebar</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="blog-details.html">blog details</a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
+                    {{--<li class="menu-mobile__item"><a class="menu-mobile__link" href="#">pages</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>--}}
+                        {{--<ul class="dropdown-menu dropdown-mobile">--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="pricing-table.html">pricing table</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="contact.html">contact</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="coming-soon.html">coming soon</a></li>--}}
+                            {{--<li class="dropdown-mobile__item "><a class="dropdown-mobile__link" href="404.html">404 page</a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
+                    {{--<li class="menu-mobile__item"><a class="menu-mobile__link" href="#">elements</a><span class="dropdown-toggle glyph-icon flaticon-arrows-3 menu-mobile__icon" data-toggle="dropdown" onClick="void(0)"></span>--}}
+                        {{--<ul class="dropdown-menu dropdown-mobile">--}}
+                            {{--<li class="dropdown-submenu"><a class="dropdown-mobile__link" href="#">sub level 1</a><span class="glyph-icon flaticon-arrows-3 menu-mobile__icon"></span>--}}
+                                {{--<ul class="dropdown-menu dropdown-mobile">--}}
+                                    {{--<li class="dropdown-mobile__item"><a class="dropdown-mobile__link" href="#">sub level 1.1</a></li>--}}
+                                    {{--<li class="dropdown-mobile__item"><a class="dropdown-mobile__link" href="#">sub level 1.2</a></li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
+                            {{--<li class="dropdown-submenu"><a class="dropdown-mobile__link" href="#">sub level 2</a><span class="glyph-icon flaticon-arrows-3 menu-mobile__icon"></span>--}}
+                                {{--<ul class="dropdown-menu dropdown-mobile">--}}
+                                    {{--<li class="dropdown-mobile__item"><a class="dropdown-mobile__link" href="#">sub level 2.1</a></li>--}}
+                                    {{--<li class="dropdown-mobile__item"><a class="dropdown-mobile__link" href="#">sub level 2.2</a></li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
                 </ul>
             </div>
             <div class="menu-mobile-dropdown menu-mobile--categories">
