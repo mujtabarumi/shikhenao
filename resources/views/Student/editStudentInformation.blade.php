@@ -41,12 +41,12 @@
     <div  class="row">
         <div class="col-md-6">
             <label >States<span style="color: red">*</span></label>
-            @if($studentInfo->address !=null)
+            @if($studentInfo->address != null)
                 @foreach($address as $addresss)
-            <input type="text" id="states" placeholder="Student states" name="states" value="{{$addresss->state}}" class="form-control" required />
+            <input type="text" id="states" placeholder="Student states" name="state" value="{{$addresss->state}}" class="form-control" required />
                 @endforeach
             @else
-                <input type="text" id="states" placeholder="Student states" name="states" value="" class="form-control" required />
+                <input type="text" id="states" placeholder="Student states" name="state" value="" class="form-control" required />
             @endif
         </div>
         <div class="col-md-6">
@@ -64,7 +64,7 @@
             <label >Street Name<span style="color: red">*</span></label>
             @if($studentInfo->address !=null)
                 @foreach($address as $addresss)
-            <input type="text" id="streetName" placeholder="Student city" name="streetName" value="{{$addresss->streetName}}" class="form-control" required />
+            <input type="text" id="streetName" placeholder="Student streetName" name="streetName" value="{{$addresss->streetName}}" class="form-control" required />
                 @endforeach
 @else
                 <input type="text" id="streetName" placeholder="Student streetName" name="streetName" value="" class="form-control" required />
@@ -98,7 +98,7 @@
     <div  class="row">
         <div class="col-md-12">
             <label >Address<span style="color: red">*</span></label>
-            @if($studentInfo->address !=null)
+            @if($studentInfo->address !='')
                 @foreach($address as $addresss)
                 <textarea class="form-control" id="address"name="address" rows="2"cols="5" placeholder="Your address">{{$addresss->details}}</textarea>
                 @endforeach
@@ -127,6 +127,7 @@
     </div>
 
 </form>
+
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <script>

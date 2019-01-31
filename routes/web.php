@@ -58,5 +58,16 @@ Route::POST('/Admin-course-Edit', 'Admin\CourseController@edit')->name('admin.co
 /*student */
 Route::get('/Student-resume', 'Student\StudentController@showResume')->name('student.resume');
 Route::POST('/Student-Info-edit', 'Student\StudentController@showInforForEdit')->name('student.showInfo');
-
 Route::post('/Student-Info-update/{student}', 'Student\StudentController@StudentInfoUpdate')->name('student.updateCandidateInfo');
+
+
+Route::post('/Student-AboutMe-update/{student}', 'Student\StudentController@StudentAboutmeUpdate')->name('student.updateStudentAboutMe');
+Route::post('/Student-AboutMe-Edit', 'Student\StudentController@showStudentAboutMeForEdit')->name('student.editStudentAboutMe');
+
+
+Route::post('/Student-Education', 'Student\StudentController@addEducation')->name('student.addEducation');
+Route::post('/Student-Add-Education/{student}', 'Student\StudentController@insertStudentEducation')->name('student.insertEducation');
+Route::post('/Student-Update-Education/{eduId}', 'Student\StudentController@updateStudentEducation')->name('student.updateStudentEducation');
+Route::post('/Student-Edit-Education', 'Student\StudentController@editStudentEducation')->name('student.editStudentEducation');
+Route::post('/Student-delete-Education', 'Student\StudentController@deleteStudentducation')->name('student.deleteEducation');
+

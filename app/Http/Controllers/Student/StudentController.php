@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Student;
 
 
 use App\Address;
+use App\Education;
 use App\Http\Controllers\Controller;
 use App\StudentAddress;
 use App\StudentEducation;
 use App\Students;
+use App\StudentWorkExperience;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+
+
+use Image;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -28,7 +34,7 @@ class StudentController extends Controller
         if ($studentInfo->fkAddressId !=null){
 
             $studentAddress=StudentAddress::select('address.addressId','address.streetName','address.cityName','address.state','address.zip',
-                'address.country', 'address.country')
+                'address.country', 'address.details')
                 ->leftJoin('address', 'address.addressId', '=', 'studentaddress.fkAddressId')
 
                 ->where('studentaddress.fkStudentId',$studentInfo->studentId)
@@ -46,11 +52,13 @@ class StudentController extends Controller
             ->get();
 
 
+        $workExperience = StudentWorkExperience::select('studentworkexperience.isVisible','workexperience.*')
+            ->leftJoin('workexperience', 'workexperience.workExperienceId', '=', 'studentworkexperience.fkWorkExperienceId')
+            ->where('studentworkexperience.fkStudentId', $studentInfo->studentId)->get();
 
 
 
-
-        return view('Student.resume', compact('studentInfo','studentAddress','studentEducation'));
+        return view('Student.resume', compact('studentInfo','studentAddress','studentEducation','workExperience'));
 
 
 
@@ -61,14 +69,16 @@ class StudentController extends Controller
 
 
 
-        if ($r->address !=null){
+        if ($r->address != null){
 
-            $studentAddress=StudentAddress::select('address.addressId','address.streetName','address.cityName','address.state','address.zip',
+            $studentAddress=StudentAddress::select('address.addressId','address.streetName','address.details','address.cityName','address.state','address.zip',
                 'address.country', 'address.country')
                 ->leftJoin('address', 'address.addressId', '=', 'studentaddress.fkAddressId')
 
                 ->where('studentaddress.fkAddressId',$r->address)
                 ->get();
+
+
 
         }else{
             $studentAddress=null;
@@ -126,10 +136,12 @@ class StudentController extends Controller
 
 
         if ($studentInfo->fkAddressId != null) {
+
             $studentAddress = StudentAddress::findOrFail($studentInfo->fkAddressId);
             $address = Address::findOrFail($studentAddress->fkAddressId);
 
-        }else{
+        } else{
+
             $studentAddress= new StudentAddress();
             $address= new Address();
         }
@@ -147,7 +159,7 @@ class StudentController extends Controller
         $studentAddress->save();
 
 
-        $studentInfo->fkAddressId=$studentAddress->addressId;
+        $studentInfo->fkAddressId=$studentAddress->studentAddressId;
         $studentInfo->save();
 
 
@@ -155,6 +167,146 @@ class StudentController extends Controller
 
 
         Session::flash('success_msg', 'Your Information Updated Successfully!');
+        return back();
+
+    }
+
+    public function showStudentAboutMeForEdit(Request $r) // show edit modal of employee about me
+    {
+
+        $studentInfo = Students::Select('studentAboutMe')->where('studentId', $r->id)->get();
+        return view('Student.editStudentAbouteMe',['studentInfo' => $studentInfo,'id'=>$r->id]);
+
+    }
+    public function StudentAboutmeUpdate($student,Request $r) // show edit modal of employee about me
+    {
+
+        $studentInfo=Students::findOrFail($student);
+        $studentInfo->studentAboutMe=$r->aboutMe;
+
+        $studentInfo->save();
+
+
+        Session::flash('success_msg', 'Your Information Updated Successfully!');
+        return back();
+
+    }
+
+    public function addEducation(Request $r) // show add modal of employee education
+    {
+
+
+        return view('Student.addEducation',['id'=>$r->id]);
+
+    }
+    public function editStudentEducation(Request $r) // show add modal of employee education
+    {
+
+
+        $educationInfo = Education::leftJoin('studenteducation', 'education.educationId', '=', 'studenteducation.fkEducationId')->findOrFail($r->id);
+
+        return view('Student.editEducation',['education' => $educationInfo,'id'=>$r->id]);
+
+    }
+    public function deleteStudentducation(Request $r) // show add modal of employee education
+    {
+        $studentInfo = Students::where('fkuserId', Auth::user()->userId)->first()->studentId;
+        $deletedRows = StudentEducation::where('fkEducationId', $r->id)->where('fkStudentId', $studentInfo)->delete();
+
+        $employeeEducation=Education::destroy($r->id);
+
+    }
+    public function updateStudentEducation($eduId,Request $r) // show add modal of employee education
+    {
+
+
+        $EducationInfo = Education::findOrFail($eduId);
+
+        $EducationInfo->organizationName=$r->schoolName;
+        $EducationInfo->degreeName=$r->degreeName;
+        $EducationInfo->startDate=date('Y',strtotime($r->startDate));
+
+        if ($r->endDate != null){
+
+            if ($r->currentlyRunning){
+                $EducationInfo->isCurrentlyRunning=$r->currentlyRunning;
+                $EducationInfo->endDate=null;
+            }else{
+                $EducationInfo->isCurrentlyRunning=0;
+                $EducationInfo->endDate=$r->endDate;
+            }
+        }else{
+            if ($r->currentlyRunning){
+                $EducationInfo->isCurrentlyRunning=$r->currentlyRunning;
+                $EducationInfo->endDate=null;
+            }else{
+                $EducationInfo->isCurrentlyRunning=0;
+                $EducationInfo->endDate=$r->endDate;
+            }
+
+
+        }
+
+//        if ($r->currentlyRunning){
+//            $EducationInfo->currentlyRunning=$r->currentlyRunning;
+//            $EducationInfo->endDate=null;
+//        }else{
+//            $EducationInfo->endDate=date('Y',strtotime($r->endDate));
+//            $EducationInfo->currentlyRunning='0';
+//        }
+
+        $EducationInfo->save();
+
+        Session::flash('success_msg', 'Education Updated Successfully!');
+        return back();
+
+    }
+    public function insertStudentEducation($student,Request $r) // show add modal of employee education
+    {
+
+
+        $education=new Education();
+
+        $education->organizationName=$r->schoolName;
+        $education->degreeName=$r->degreeName;
+        $education->startDate=$r->startDate;
+        if ($r->endDate != null){
+
+            if ($r->currentlyRunning){
+                $education->isCurrentlyRunning=$r->currentlyRunning;
+                $education->endDate=null;
+            }else{
+                $education->isCurrentlyRunning=0;
+                $education->endDate=$r->endDate;
+            }
+        }else{
+            if ($r->currentlyRunning){
+                $education->isCurrentlyRunning=$r->currentlyRunning;
+                $education->endDate=null;
+            }else{
+                $education->isCurrentlyRunning=0;
+                $education->endDate=$r->endDate;
+            }
+
+
+        }
+//        if ($r->currentlyRunning){
+//            $education->currentlyRunning=$r->currentlyRunning;
+//        }else{
+//            $education->endDate=date('Y',strtotime($r->endDate));
+//        }
+//        $education->fkcandidateId=$candidate;
+
+        $education->save();
+
+        $studentEdu=new StudentEducation();
+
+        $studentEdu->fkEducationId=$education->educationId;
+        $studentEdu->EducationVisible=$r->educationStatus;
+        $studentEdu->fkStudentId=$student;
+        $studentEdu->save();
+
+        Session::flash('success_msg', 'Education Added Successfully!');
         return back();
 
     }

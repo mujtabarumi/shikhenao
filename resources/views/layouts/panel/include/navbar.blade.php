@@ -43,10 +43,11 @@
                         {{--</ul>--}}
 
                     {{--</li>--}}
-
+                    <li>
                     <a href="{{route('student.resume')}}" class="waves-effect">
                     <i class="dripicons-blog"></i> <span>My resume  </span>
                     </a>
+                    </li>
                 @endif
 
 

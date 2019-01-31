@@ -50,9 +50,18 @@
                         <div class="container">
                         <div class="row">
                             <div class="col-md-6 img">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzOpl3-kqfNbPcA_u_qEZcSuvu5Je4Ce_FkTMMjxhB-J1wWin-Q"  alt="" class="img-rounded">
+                                {{--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzOpl3-kqfNbPcA_u_qEZcSuvu5Je4Ce_FkTMMjxhB-J1wWin-Q"  alt="" class="img-rounded">--}}
+
+
+                                @if($studentInfo->image != null)
+                                    <img src="{{url('public/studentImages/thumb/'.$studentInfo->image)}}" height="150px" width="280px" alt="candidate-picture" class="img-rounded">
+                                @else
+                                    <img src="{{url('public/studentImages/dummy.jpg')}}" height="150px" width="200px" alt="candidate-picture" class="img-rounded">
+                                @endif
+
                             </div>
                             <div class="col-md-6 details">
+
                                 <blockquote>
                                     <h5>{{$studentInfo->studentFirstName." ".$studentInfo->studentLastName}} <span><a style="cursor: pointer" onclick="editCandidate()"><i class="ion-edit"></i></a></span></h5>
                                     @if($studentAddress!=null)
@@ -74,45 +83,52 @@
                             </div>
                         </div>
                         </div>
+                        <hr>
+                        <div class="container">
+
+                            <h5 class="dark profile-title">About me<span><a style="cursor: pointer" onclick="editCandidateAboutMe()"><i class="ion-edit"></i></a></span></h5>
+                            <p>{{$studentInfo->studentAboutMe}}</p>
+                        </div>
+<hr>
+                        <div id="Education" class="container">
+                            <h5 class="dark profile-title">Education<span><a style="cursor: pointer" onclick="addCandidateEducation()"><i class="ion-plus"></i></a></span></h5>
+                            @foreach($studentEducation as $edu)
+                                <div class="profile-education">
+                                    <h5 class="dark">{{$edu->organizationName}}&nbsp;<span><a style="cursor: pointer;" data-panel-id="{{$edu->educationId}}" onclick="editCandidateEducation(this)"><i class="ion-edit"></i></a><a  style="cursor: pointer;" data-panel-id="{{$edu->educationId}}" onclick="deleteEducation(this)"><i class="fa fa-times"></i></a></span></h5>
+                                    <p>{{$edu->degreeName}}</p>
+                                    <p>Status:@if($edu->EducationVisible=='0') Not visible @elseif($edu->EducationVisible=='1') Visible @endif</p>
+                                    <p class="ultra-light">{{$edu->startDate}} - @if($edu->isCurrentlyRunning=='0'){{$edu->endDate}}@else{{"Currenty Running"}}@endif</p>
+                                </div> <!-- end .profile-education -->
+                                <div class="spacer-md"></div>
+                            @endforeach
+
+                        </div> <!-- end .profile-education-wrapper -->
+                        <hr>
+
+                        <div id="workExperience" class="container">
+                            <h5 class="dark profile-title">Work experience<span><a style="cursor: pointer"  onclick="addCandidateWorkExperience()"><i class="ion-plus"></i></a></span></h5>
+                            @foreach($workExperience as $workingExp)
+                                <div class="profile-experience flex space-between no-wrap no-column">
+                                    <div class="profile-experience-left">
+                                        <h5 class="profile-designation dark">{{$workingExp->Designation}}<span><a data-panel-id="{{$workingExp->workExperienceId}}" onclick="editCandidateWorkExperience(this)" style="cursor: pointer;"><i  class="ion-edit"></i></a><a class="deleteIcon" data-panel-id="{{$workingExp->workExperienceId}}"onclick="deleteWorkExperince(this)" style="cursor: pointer;" onclick=""><i class="ion-android-delete"></i></a></span></h5>
+                                        <h5 class="profile-company dark">{{$workingExp->comapnyName}}</h5>
+                                        {{--<p class="small ultra-light">{{$workingExp->duration}}</p>--}}
+                                        <p>Status:@if($workingExp->isVisible=='0') Not visible @elseif($workingExp->isVisible=='1') Visible @endif</p>
+                                        <p class="ultra-light">{{$workingExp->startDate}} - @if($workingExp->isVisible=='0'){{$workingExp->endDate}}@else{{"Currenty Running"}}@endif</p>
+
+                                        <p>{{$workingExp->description}}</p>
+                                        {{--<h6 class="projects-count">4 projects</h6>--}}
+                                    </div> <!-- end .profile-experience-left -->
+                                    {{--<div class="profile-experience-right">--}}
+                                    {{--<img src="{{url('public/images/company-logo-big01.jpg')}}" alt="company-logo" class="img-responsive">--}}
+                                    {{--</div> <!-- end .profile-experience-right -->--}}
+                                </div> <!-- end .profile-experience -->
+                                <div class="spacer-md"></div>
+                            @endforeach
+                        </div> <!-- end .profile-experience-wrapper -->
 
 
 
-                        {{--<div class="profile-info profile-section flex no-column no-wrap">--}}
-
-                            {{--<div class="profile-picture">--}}
-                                {{--@if($studentInfo->image != null)--}}
-                                    {{--<img src="{{url('public/studentImages/thumb/'.$studentInfo->image)}}" height="116px" width="116px" alt="candidate-picture" class="img-responsive">--}}
-                                {{--@else--}}
-                                    {{--<img src="{{url('public/studentImages/dummy.jpg')}}" height="116px" width="116px" alt="candidate-picture" class="img-responsive">--}}
-                                {{--@endif--}}
-                            {{--</div> <!-- end .user-picture -->--}}
-                            {{--<div class="profile-meta">--}}
-                                {{--<h4 class="dark">{{$studentInfo->studentFirstName." ".$studentInfo->studentLastName}}<span><a style="cursor: pointer" onclick="editCandidate()"><i class="ion-edit"></i></a></span></h4>--}}
-                                {{--<h4 class="dark">{{$studentInfo->name}}<span><a style="cursor: pointer" data-toggle="modal" data-target="#myModal"><i class="ion-edit"></i></a></span></h4>--}}
-                                {{--<p>{{$studentInfo->studentProfession}}</p>--}}
-                                {{--<div class="profile-contact flex items-center no-wrap no-column">--}}
-                                    {{--@if($studentAddress!=null)--}}
-                                        {{--@foreach($studentAddress as $address)--}}
-                                            {{--<h6 class="contact-location">{{$address->details}},{{$address->streetName}},<span>{{$address->cityName}}, {{$address->state}},{{$address->country}}</span></h6>--}}
-                                        {{--@endforeach--}}
-                                    {{--@else--}}
-                                        {{--<h6 class="contact-location"><span></span></h6>--}}
-                                    {{--@endif--}}
-                                    {{--<h6 class="contact-phone">{{$studentInfo->phone}}</h6>--}}
-                                    {{--<h6 class="contact-email">{{$studentInfo->studentEmail}}</h6>--}}
-                                {{--</div> <!-- end .profile-contact -->--}}
-
-                            {{--</div> <!-- end .profile-meta -->--}}
-                        {{--</div> <!-- end .profile-info -->--}}
-
-                        {{--<div class="divider"></div>--}}
-
-                        {{--<div class="profile-about profile-section">--}}
-                            {{--<h3 class="dark profile-title">About me<span><a style="cursor: pointer" onclick="editCandidateAboutMe()"><i class="ion-edit"></i></a></span></h3>--}}
-                            {{--<p>{{$studentInfo->aboutme}}</p>--}}
-                        {{--</div> <!-- end .profile-about -->--}}
-
-                        <div class="divider"></div>
 
 
                     {{--</div>--}}
@@ -174,19 +190,19 @@
                 },
             });
         }
-        {{--function editCandidateAboutMe() {--}}
-            {{--var id= '{{$studentInfo->candidateId}}';--}}
-            {{--$.ajax({--}}
-                {{--type: "POST",--}}
-                {{--url: '{{route('employee.editCandidateAboutMe')}}',--}}
-                {{--data: {id:id},--}}
-                {{--success: function(data){--}}
-                    {{--$('.modal-body').html(data);--}}
-                    {{--$('#myModalLabel').html("Edit-Candidate Info!: About Me");--}}
-                    {{--$('#myModal').modal({show:true});--}}
-                {{--},--}}
-            {{--});--}}
-        {{--}--}}
+        function editCandidateAboutMe() {
+            var id= '{{$studentInfo->studentId}}';
+            $.ajax({
+                type: "POST",
+                url: '{{route('student.editStudentAboutMe')}}',
+                data: {id:id},
+                success: function(data){
+                    $('.modal-body').html(data);
+                    $('#myModalLabel').html("Edit-Candidate Info!: About Me");
+                    $('#myModal').modal({show:true});
+                },
+            });
+        }
         {{--function deleteWorkExperince(x) {--}}
             {{--$.confirm({--}}
                 {{--title: 'Confirm!',--}}
@@ -228,47 +244,47 @@
                 {{--}--}}
             {{--});--}}
         {{--}--}}
-        {{--function deleteEducation(x) {--}}
-            {{--$.confirm({--}}
-                {{--title: 'Confirm!',--}}
-                {{--content: 'Are you sure To delete this Education?',--}}
-                {{--icon: 'fa fa-warning',--}}
-                {{--type: 'red',--}}
-                {{--typeAnimated: true,--}}
-                {{--buttons: {--}}
-                    {{--tryAgain: {--}}
-                        {{--text: 'Yes',--}}
-                        {{--btnClass: 'btn-red',--}}
-                        {{--action: function(){--}}
-                            {{--var id = $(x).data('panel-id');--}}
-                            {{--$.ajax({--}}
-                                {{--type: "POST",--}}
-                                {{--url: '{{route('employee.deleteEducation')}}',--}}
-                                {{--data: {id: id},--}}
-                                {{--success: function (data) {--}}
-                                    {{--$.alert({--}}
-                                        {{--title: 'Success!',--}}
-                                        {{--type: 'green',--}}
-                                        {{--content: 'Education Deleted successfully',--}}
-                                        {{--buttons: {--}}
-                                            {{--tryAgain: {--}}
-                                                {{--text: 'Ok',--}}
-                                                {{--btnClass: 'btn-green',--}}
-                                                {{--action: function () {--}}
-                                                    {{--$('#Education').load(document.URL +  ' #Education');--}}
-                                                {{--}--}}
-                                            {{--}--}}
-                                        {{--}--}}
-                                    {{--});--}}
-                                {{--},--}}
-                            {{--});--}}
-                        {{--}--}}
-                    {{--},--}}
-                    {{--No: function () {--}}
-                    {{--},--}}
-                {{--}--}}
-            {{--});--}}
-        {{--}--}}
+        function deleteEducation(x) {
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Are you sure To delete this Education?',
+                icon: 'fa fa-warning',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    tryAgain: {
+                        text: 'Yes',
+                        btnClass: 'btn-red',
+                        action: function(){
+                            var id = $(x).data('panel-id');
+                            $.ajax({
+                                type: "POST",
+                                url: '{{route('student.deleteEducation')}}',
+                                data: {id: id},
+                                success: function (data) {
+                                    $.alert({
+                                        title: 'Success!',
+                                        type: 'green',
+                                        content: 'Education Deleted successfully',
+                                        buttons: {
+                                            tryAgain: {
+                                                text: 'Ok',
+                                                btnClass: 'btn-green',
+                                                action: function () {
+                                                    $('#Education').load(document.URL +  ' #Education');
+                                                }
+                                            }
+                                        }
+                                    });
+                                },
+                            });
+                        }
+                    },
+                    No: function () {
+                    },
+                }
+            });
+        }
         {{--function addCandidateWorkExperience() {--}}
             {{--var id= '{{$studentInfo->candidateId}}';--}}
             {{--$.ajax({--}}
@@ -295,32 +311,32 @@
                 {{--},--}}
             {{--});--}}
         {{--}--}}
-        {{--function addCandidateEducation() {--}}
-            {{--var id= '{{$studentInfo->candidateId}}';--}}
-            {{--$.ajax({--}}
-                {{--type: "POST",--}}
-                {{--url: '{{route('employee.addEducation')}}',--}}
-                {{--data: {id:id},--}}
-                {{--success: function(data){--}}
-                    {{--$('.modal-body').html(data);--}}
-                    {{--$('#myModalLabel').html("Add-Candidate Info! : Education");--}}
-                    {{--$('#myModal').modal({show:true});--}}
-                {{--},--}}
-            {{--});--}}
-        {{--}--}}
-        {{--function editCandidateEducation(x) {--}}
-            {{--var id = $(x).data('panel-id');--}}
-            {{--$.ajax({--}}
-                {{--type: "POST",--}}
-                {{--url: '{{route('employee.editCandidateEducation')}}',--}}
-                {{--data: {id:id},--}}
-                {{--success: function(data){--}}
-                    {{--$('.modal-body').html(data);--}}
-                    {{--$('#myModalLabel').html("Edit-Candidate Info! : Education");--}}
-                    {{--$('#myModal').modal({show:true});--}}
-                {{--},--}}
-            {{--});--}}
-        {{--}--}}
+        function addCandidateEducation() {
+            var id= '{{$studentInfo->studentId}}';
+            $.ajax({
+                type: "POST",
+                url: '{{route('student.addEducation')}}',
+                data: {id:id},
+                success: function(data){
+                    $('.modal-body').html(data);
+                    $('#myModalLabel').html("Add-Student Info! : Education");
+                    $('#myModal').modal({show:true});
+                },
+            });
+        }
+        function editCandidateEducation(x) {
+            var id = $(x).data('panel-id');
+            $.ajax({
+                type: "POST",
+                url: '{{route('student.editStudentEducation')}}',
+                data: {id:id},
+                success: function(data){
+                    $('.modal-body').html(data);
+                    $('#myModalLabel').html("Edit-Candidate Info! : Education");
+                    $('#myModal').modal({show:true});
+                },
+            });
+        }
         {{--function addCandidateSkill() {--}}
             {{--var id= '{{$studentInfo->candidateId}}';--}}
             {{--$.ajax({--}}
