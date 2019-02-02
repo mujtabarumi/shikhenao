@@ -19,7 +19,7 @@
                 <div class="card">
                     <div class="card-header">My requested course</div>
                     <div class="card-body ">
-                        <div class="container">
+                        {{--<div class="container">--}}
 
                             <div class="table table-responsive">
                                 <table id="manageapplication" class="table table-striped table-bordered" style="width:100%" >
@@ -48,7 +48,7 @@
 
 
 
-                        </div>
+                        {{--</div>--}}
                     </div>
 
                 </div>

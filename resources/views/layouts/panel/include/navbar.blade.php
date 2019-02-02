@@ -28,7 +28,23 @@
                         <li><a href="{{route('admin.courses.show')}}" class="waves-effect">All Course</a></li>
 
                     </ul>
+
+
                 </li>
+                    <li>
+                        <a href="{{route('teacher.requestedCourse')}}" class="waves-effect">
+                            <i class="dripicons-blog"></i> <span>Requested Course</span>
+                        </a>
+                    </li>
+                @endif
+                @if(Auth::user()->fkuserTypeId==USER_TYPE['teacher']['code'])
+
+
+                    <li>
+                        <a href="{{route('teacher.requestedCourse')}}" class="waves-effect">
+                            <i class="dripicons-blog"></i> <span>Requested Course</span>
+                        </a>
+                    </li>
                 @endif
 
 

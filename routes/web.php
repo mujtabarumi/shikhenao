@@ -81,4 +81,9 @@ Route::post('/Student-delete-WorkExperience', 'Student\StudentController@deleteS
 
 
 Route::get('/Student-Requested-Course', 'Student\StudentController@StudentRequestedCourse')->name('student.requestedCourse');
+
 Route::post('/Student-Requested-Course-show-all', 'Student\StudentController@StudentRequestedCourseWithData')->name('student.requestedCourse.showAll');
+
+/*teacher */
+Route::get('/Teacher-Requested-Course', 'Teacher\TeacherController@TeacherRequestedCourse')->name('teacher.requestedCourse');
+Route::post('/Teacher-Requested-Course-show-all', 'Teacher\TeacherController@TeacherRequestedCourseWithData')->name('teacher.requestedCourse.showAll');
